@@ -1,0 +1,33 @@
+{
+  "name": "finalysis-api",
+  "version": "1.0.0",
+  "description": "API for fetching SEC documents",
+  "homepage": "https://github.com/anng-phtk/finalysis-api#readme",
+  "bugs": {
+    "url": "https://github.com/anng-phtk/finalysis-api/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anng-phtk/finalysis-api.git"
+  },
+  "license": "ISC",
+  "author": "Anang Phatak",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.6.0",
+    "@types/stream-json": "^1.7.8",
+    "nodemon": "^3.1.14",
+    "typescript": "^6.0.2"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "stream-json": "^2.1.0"
+  }
+}
