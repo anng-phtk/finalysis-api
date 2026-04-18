@@ -1,4 +1,708 @@
 {
+  "2015-03-28:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2015-03-28",
+    "value": 23159000000,
+    "form": "10-Q",
+    "reportDate": "2015-03-28",
+    "rank": 0
+  },
+  "2015-06-27:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2015-06-27",
+    "value": 26474000000,
+    "form": "10-Q",
+    "reportDate": "2015-06-27",
+    "rank": 0
+  },
+  "2015-09-26:10-K:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2015-09-26",
+    "value": 35490000000,
+    "form": "10-K",
+    "reportDate": "2015-09-26",
+    "rank": 0
+  },
+  "2015-12-26:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2015-12-26",
+    "value": 33312000000,
+    "form": "10-Q",
+    "reportDate": "2015-12-26",
+    "rank": 0
+  },
+  "2016-03-26:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2016-03-26",
+    "value": 25098000000,
+    "form": "10-Q",
+    "reportDate": "2016-03-26",
+    "rank": 0
+  },
+  "2016-06-25:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2016-06-25",
+    "value": 26318000000,
+    "form": "10-Q",
+    "reportDate": "2016-06-25",
+    "rank": 0
+  },
+  "2016-09-24:10-K:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2016-09-24",
+    "value": 37294000000,
+    "form": "10-K",
+    "reportDate": "2016-09-24",
+    "rank": 0
+  },
+  "2016-12-31:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2016-12-31",
+    "value": 38510000000,
+    "form": "10-Q",
+    "reportDate": "2016-12-31",
+    "rank": 0
+  },
+  "2017-04-01:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2017-04-01",
+    "value": 28573000000,
+    "form": "10-Q",
+    "reportDate": "2017-04-01",
+    "rank": 0
+  },
+  "2017-07-01:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2017-07-01",
+    "value": 31915000000,
+    "form": "10-Q",
+    "reportDate": "2017-07-01",
+    "rank": 0
+  },
+  "2017-09-30:10-K:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2017-09-30",
+    "value": 49049000000,
+    "form": "10-K",
+    "reportDate": "2017-09-30",
+    "rank": 0
+  },
+  "2017-12-30:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2017-12-30",
+    "value": 62985000000,
+    "form": "10-Q",
+    "reportDate": "2017-12-30",
+    "rank": 0
+  },
+  "2018-03-31:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2018-03-31",
+    "value": 34311000000,
+    "form": "10-Q",
+    "reportDate": "2018-03-31",
+    "rank": 0
+  },
+  "2018-06-30:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2018-06-30",
+    "value": 38489000000,
+    "form": "10-Q",
+    "reportDate": "2018-06-30",
+    "rank": 0
+  },
+  "2018-09-29:10-K:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2018-09-29",
+    "value": 55888000000,
+    "form": "10-K",
+    "reportDate": "2018-09-29",
+    "rank": 0
+  },
+  "2018-12-29:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2018-12-29",
+    "value": 44293000000,
+    "form": "10-Q",
+    "reportDate": "2018-12-29",
+    "rank": 0
+  },
+  "2019-03-30:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2019-03-30",
+    "value": 30443000000,
+    "form": "10-Q",
+    "reportDate": "2019-03-30",
+    "rank": 0
+  },
+  "2019-06-29:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2019-06-29",
+    "value": 29115000000,
+    "form": "10-Q",
+    "reportDate": "2019-06-29",
+    "rank": 0
+  },
+  "2019-09-28:10-K:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2019-09-28",
+    "value": 46236000000,
+    "form": "10-K",
+    "reportDate": "2019-09-28",
+    "rank": 0
+  },
+  "2019-12-28:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2019-12-28",
+    "value": 45111000000,
+    "form": "10-Q",
+    "reportDate": "2019-12-28",
+    "rank": 0
+  },
+  "2020-03-28:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2020-03-28",
+    "value": 32421000000,
+    "form": "10-Q",
+    "reportDate": "2020-03-28",
+    "rank": 0
+  },
+  "2020-06-27:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2020-06-27",
+    "value": 35325000000,
+    "form": "10-Q",
+    "reportDate": "2020-06-27",
+    "rank": 0
+  },
+  "2020-09-26:10-K:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2020-09-26",
+    "value": 42296000000,
+    "form": "10-K",
+    "reportDate": "2020-09-26",
+    "rank": 0
+  },
+  "2020-12-26:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2020-12-26",
+    "value": 63846000000,
+    "form": "10-Q",
+    "reportDate": "2020-12-26",
+    "rank": 0
+  },
+  "2021-03-27:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2021-03-27",
+    "value": 40127000000,
+    "form": "10-Q",
+    "reportDate": "2021-03-27",
+    "rank": 0
+  },
+  "2021-06-26:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2021-06-26",
+    "value": 40409000000,
+    "form": "10-Q",
+    "reportDate": "2021-06-26",
+    "rank": 0
+  },
+  "2021-09-25:10-K:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2021-09-25",
+    "value": 54763000000,
+    "form": "10-K",
+    "reportDate": "2021-09-25",
+    "rank": 0
+  },
+  "2021-12-25:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2021-12-25",
+    "value": 74362000000,
+    "form": "10-Q",
+    "reportDate": "2021-12-25",
+    "rank": 0
+  },
+  "2022-03-26:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2022-03-26",
+    "value": 52682000000,
+    "form": "10-Q",
+    "reportDate": "2022-03-26",
+    "rank": 0
+  },
+  "2022-06-25:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2022-06-25",
+    "value": 48343000000,
+    "form": "10-Q",
+    "reportDate": "2022-06-25",
+    "rank": 0
+  },
+  "2022-09-24:10-K:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2022-09-24",
+    "value": 64115000000,
+    "form": "10-K",
+    "reportDate": "2022-09-24",
+    "rank": 0
+  },
+  "2022-12-31:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2022-12-31",
+    "value": 57918000000,
+    "form": "10-Q",
+    "reportDate": "2022-12-31",
+    "rank": 0
+  },
+  "2023-04-01:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2023-04-01",
+    "value": 42945000000,
+    "form": "10-Q",
+    "reportDate": "2023-04-01",
+    "rank": 0
+  },
+  "2023-07-01:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2023-07-01",
+    "value": 46699000000,
+    "form": "10-Q",
+    "reportDate": "2023-07-01",
+    "rank": 0
+  },
+  "2023-09-30:10-K:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2023-09-30",
+    "value": 62611000000,
+    "form": "10-K",
+    "reportDate": "2023-09-30",
+    "rank": 0
+  },
+  "2023-12-30:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2023-12-30",
+    "value": 58146000000,
+    "form": "10-Q",
+    "reportDate": "2023-12-30",
+    "rank": 0
+  },
+  "2024-03-30:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2024-03-30",
+    "value": 45753000000,
+    "form": "10-Q",
+    "reportDate": "2024-03-30",
+    "rank": 0
+  },
+  "2024-06-29:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2024-06-29",
+    "value": 47574000000,
+    "form": "10-Q",
+    "reportDate": "2024-06-29",
+    "rank": 0
+  },
+  "2024-09-28:10-K:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2024-09-28",
+    "value": 68960000000,
+    "form": "10-K",
+    "reportDate": "2024-09-28",
+    "rank": 0
+  },
+  "2024-12-28:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2024-12-28",
+    "value": 61910000000,
+    "form": "10-Q",
+    "reportDate": "2024-12-28",
+    "rank": 0
+  },
+  "2025-03-29:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2025-03-29",
+    "value": 54126000000,
+    "form": "10-Q",
+    "reportDate": "2025-03-29",
+    "rank": 0
+  },
+  "2025-06-28:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2025-06-28",
+    "value": 50374000000,
+    "form": "10-Q",
+    "reportDate": "2025-06-28",
+    "rank": 0
+  },
+  "2025-09-27:10-K:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2025-09-27",
+    "value": 69860000000,
+    "form": "10-K",
+    "reportDate": "2025-09-27",
+    "rank": 0
+  },
+  "2025-12-27:10-Q:PAYABLES": {
+    "metric": "PAYABLES",
+    "date": "2025-12-27",
+    "value": 70587000000,
+    "form": "10-Q",
+    "reportDate": "2025-12-27",
+    "rank": 0
+  },
+  "2015-03-28:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2015-03-28",
+    "value": 10905000000,
+    "form": "10-Q",
+    "reportDate": "2015-03-28",
+    "rank": 0
+  },
+  "2015-06-27:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2015-06-27",
+    "value": 10370000000,
+    "form": "10-Q",
+    "reportDate": "2015-06-27",
+    "rank": 0
+  },
+  "2015-09-26:10-K:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2015-09-26",
+    "value": 16849000000,
+    "form": "10-K",
+    "reportDate": "2015-09-26",
+    "rank": 0
+  },
+  "2015-12-26:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2015-12-26",
+    "value": 12953000000,
+    "form": "10-Q",
+    "reportDate": "2015-12-26",
+    "rank": 0
+  },
+  "2016-03-26:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2016-03-26",
+    "value": 12229000000,
+    "form": "10-Q",
+    "reportDate": "2016-03-26",
+    "rank": 0
+  },
+  "2016-06-25:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2016-06-25",
+    "value": 11714000000,
+    "form": "10-Q",
+    "reportDate": "2016-06-25",
+    "rank": 0
+  },
+  "2016-09-24:10-K:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2016-09-24",
+    "value": 15754000000,
+    "form": "10-K",
+    "reportDate": "2016-09-24",
+    "rank": 0
+  },
+  "2016-12-31:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2016-12-31",
+    "value": 14057000000,
+    "form": "10-Q",
+    "reportDate": "2016-12-31",
+    "rank": 0
+  },
+  "2017-04-01:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2017-04-01",
+    "value": 11579000000,
+    "form": "10-Q",
+    "reportDate": "2017-04-01",
+    "rank": 0
+  },
+  "2017-07-01:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2017-07-01",
+    "value": 12399000000,
+    "form": "10-Q",
+    "reportDate": "2017-07-01",
+    "rank": 0
+  },
+  "2017-09-30:10-K:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2017-09-30",
+    "value": 17874000000,
+    "form": "10-K",
+    "reportDate": "2017-09-30",
+    "rank": 0
+  },
+  "2017-12-30:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2017-12-30",
+    "value": 23440000000,
+    "form": "10-Q",
+    "reportDate": "2017-12-30",
+    "rank": 0
+  },
+  "2018-03-31:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2018-03-31",
+    "value": 14324000000,
+    "form": "10-Q",
+    "reportDate": "2018-03-31",
+    "rank": 0
+  },
+  "2018-06-30:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2018-06-30",
+    "value": 14104000000,
+    "form": "10-Q",
+    "reportDate": "2018-06-30",
+    "rank": 0
+  },
+  "2018-09-29:10-K:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2018-09-29",
+    "value": 23186000000,
+    "form": "10-K",
+    "reportDate": "2018-09-29",
+    "rank": 0
+  },
+  "2018-12-29:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2018-12-29",
+    "value": 18077000000,
+    "form": "10-Q",
+    "reportDate": "2018-12-29",
+    "rank": 0
+  },
+  "2019-03-30:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2019-03-30",
+    "value": 15085000000,
+    "form": "10-Q",
+    "reportDate": "2019-03-30",
+    "rank": 0
+  },
+  "2019-06-29:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2019-06-29",
+    "value": 14148000000,
+    "form": "10-Q",
+    "reportDate": "2019-06-29",
+    "rank": 0
+  },
+  "2019-09-28:10-K:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2019-09-28",
+    "value": 22926000000,
+    "form": "10-K",
+    "reportDate": "2019-09-28",
+    "rank": 0
+  },
+  "2019-12-28:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2019-12-28",
+    "value": 20970000000,
+    "form": "10-Q",
+    "reportDate": "2019-12-28",
+    "rank": 0
+  },
+  "2020-03-28:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2020-03-28",
+    "value": 15722000000,
+    "form": "10-Q",
+    "reportDate": "2020-03-28",
+    "rank": 0
+  },
+  "2020-06-27:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2020-06-27",
+    "value": 17882000000,
+    "form": "10-Q",
+    "reportDate": "2020-06-27",
+    "rank": 0
+  },
+  "2020-09-26:10-K:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2020-09-26",
+    "value": 16120000000,
+    "form": "10-K",
+    "reportDate": "2020-09-26",
+    "rank": 0
+  },
+  "2020-12-26:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2020-12-26",
+    "value": 27101000000,
+    "form": "10-Q",
+    "reportDate": "2020-12-26",
+    "rank": 0
+  },
+  "2021-03-27:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2021-03-27",
+    "value": 18503000000,
+    "form": "10-Q",
+    "reportDate": "2021-03-27",
+    "rank": 0
+  },
+  "2021-06-26:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2021-06-26",
+    "value": 17475000000,
+    "form": "10-Q",
+    "reportDate": "2021-06-26",
+    "rank": 0
+  },
+  "2021-09-25:10-K:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2021-09-25",
+    "value": 26278000000,
+    "form": "10-K",
+    "reportDate": "2021-09-25",
+    "rank": 0
+  },
+  "2021-12-25:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2021-12-25",
+    "value": 30213000000,
+    "form": "10-Q",
+    "reportDate": "2021-12-25",
+    "rank": 0
+  },
+  "2022-03-26:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2022-03-26",
+    "value": 20815000000,
+    "form": "10-Q",
+    "reportDate": "2022-03-26",
+    "rank": 0
+  },
+  "2022-06-25:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2022-06-25",
+    "value": 21803000000,
+    "form": "10-Q",
+    "reportDate": "2022-06-25",
+    "rank": 0
+  },
+  "2022-09-24:10-K:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2022-09-24",
+    "value": 28184000000,
+    "form": "10-K",
+    "reportDate": "2022-09-24",
+    "rank": 0
+  },
+  "2022-12-31:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2022-12-31",
+    "value": 23752000000,
+    "form": "10-Q",
+    "reportDate": "2022-12-31",
+    "rank": 0
+  },
+  "2023-04-01:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2023-04-01",
+    "value": 17936000000,
+    "form": "10-Q",
+    "reportDate": "2023-04-01",
+    "rank": 0
+  },
+  "2023-07-01:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2023-07-01",
+    "value": 19549000000,
+    "form": "10-Q",
+    "reportDate": "2023-07-01",
+    "rank": 0
+  },
+  "2023-09-30:10-K:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2023-09-30",
+    "value": 29508000000,
+    "form": "10-K",
+    "reportDate": "2023-09-30",
+    "rank": 0
+  },
+  "2023-12-30:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2023-12-30",
+    "value": 23194000000,
+    "form": "10-Q",
+    "reportDate": "2023-12-30",
+    "rank": 0
+  },
+  "2024-03-30:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2024-03-30",
+    "value": 21837000000,
+    "form": "10-Q",
+    "reportDate": "2024-03-30",
+    "rank": 0
+  },
+  "2024-06-29:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2024-06-29",
+    "value": 22795000000,
+    "form": "10-Q",
+    "reportDate": "2024-06-29",
+    "rank": 0
+  },
+  "2024-09-28:10-K:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2024-09-28",
+    "value": 33410000000,
+    "form": "10-K",
+    "reportDate": "2024-09-28",
+    "rank": 0
+  },
+  "2024-12-28:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2024-12-28",
+    "value": 29639000000,
+    "form": "10-Q",
+    "reportDate": "2024-12-28",
+    "rank": 0
+  },
+  "2025-03-29:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2025-03-29",
+    "value": 26136000000,
+    "form": "10-Q",
+    "reportDate": "2025-03-29",
+    "rank": 0
+  },
+  "2025-06-28:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2025-06-28",
+    "value": 27557000000,
+    "form": "10-Q",
+    "reportDate": "2025-06-28",
+    "rank": 0
+  },
+  "2025-09-27:10-K:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2025-09-27",
+    "value": 39777000000,
+    "form": "10-K",
+    "reportDate": "2025-09-27",
+    "rank": 0
+  },
+  "2025-12-27:10-Q:RECEIVABLES": {
+    "metric": "RECEIVABLES",
+    "date": "2025-12-27",
+    "value": 39921000000,
+    "form": "10-Q",
+    "reportDate": "2025-12-27",
+    "rank": 0
+  },
   "2015-03-28:10-Q:SBC": {
     "metric": "SBC",
     "date": "2015-03-28",
@@ -1959,357 +2663,357 @@
     "reportDate": "2025-12-27",
     "rank": 0
   },
-  "2015-03-28:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2015-03-28:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2015-03-28",
-    "value": 18278000000,
+    "value": 18564000000,
     "form": "10-Q",
     "reportDate": "2015-03-28",
-    "rank": 0
+    "rank": 5
   },
-  "2015-06-27:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2015-06-27:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2015-06-27",
-    "value": 14083000000,
+    "value": 14473000000,
     "form": "10-Q",
     "reportDate": "2015-06-27",
-    "rank": 0
+    "rank": 5
   },
-  "2015-09-26:10-K:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2015-09-26:10-K:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2015-09-26",
-    "value": 71230000000,
+    "value": 72515000000,
     "form": "10-K",
     "reportDate": "2015-09-26",
-    "rank": 0
+    "rank": 5
   },
-  "2015-12-26:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2015-12-26:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2015-12-26",
-    "value": 24171000000,
+    "value": 24573000000,
     "form": "10-Q",
     "reportDate": "2015-12-26",
-    "rank": 0
+    "rank": 5
   },
-  "2016-03-26:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2016-03-26:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2016-03-26",
-    "value": 13987000000,
+    "value": 14142000000,
     "form": "10-Q",
     "reportDate": "2016-03-26",
-    "rank": 0
+    "rank": 5
   },
-  "2016-06-25:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2016-06-25:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2016-06-25",
-    "value": 10105000000,
+    "value": 10469000000,
     "form": "10-Q",
     "reportDate": "2016-06-25",
-    "rank": 0
+    "rank": 5
   },
-  "2016-09-24:10-K:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2016-09-24:10-K:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2016-09-24",
-    "value": 60024000000,
+    "value": 61372000000,
     "form": "10-K",
     "reportDate": "2016-09-24",
-    "rank": 0
+    "rank": 5
   },
-  "2016-12-31:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2016-12-31:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2016-12-31",
-    "value": 23359000000,
+    "value": 24180000000,
     "form": "10-Q",
     "reportDate": "2016-12-31",
-    "rank": 0
+    "rank": 5
   },
-  "2017-04-01:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2017-04-01:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2017-04-01",
-    "value": 14097000000,
+    "value": 14684000000,
     "form": "10-Q",
     "reportDate": "2017-04-01",
-    "rank": 0
+    "rank": 5
   },
-  "2017-07-01:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2017-07-01:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2017-07-01",
-    "value": 10768000000,
+    "value": 11308000000,
     "form": "10-Q",
     "reportDate": "2017-07-01",
-    "rank": 0
+    "rank": 5
   },
-  "2017-09-30:10-K:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2017-09-30:10-K:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2017-09-30",
-    "value": 61344000000,
+    "value": 64089000000,
     "form": "10-K",
     "reportDate": "2017-09-30",
-    "rank": 0
+    "rank": 5
   },
-  "2017-12-30:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2017-12-30:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2017-12-30",
-    "value": 26274000000,
+    "value": 27030000000,
     "form": "10-Q",
     "reportDate": "2017-12-30",
-    "rank": 0
+    "rank": 5
   },
-  "2018-03-31:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2018-03-31:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2018-03-31",
-    "value": 15894000000,
+    "value": 16168000000,
     "form": "10-Q",
     "reportDate": "2018-03-31",
-    "rank": 0
+    "rank": 5
   },
-  "2018-06-30:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2018-06-30:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2018-06-30",
-    "value": 12612000000,
+    "value": 13284000000,
     "form": "10-Q",
     "reportDate": "2018-06-30",
-    "rank": 0
+    "rank": 5
   },
-  "2018-09-29:10-K:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2018-09-29:10-K:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2018-09-29",
-    "value": 70898000000,
+    "value": 72903000000,
     "form": "10-K",
     "reportDate": "2018-09-29",
-    "rank": 0
+    "rank": 5
   },
-  "2018-12-29:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2018-12-29:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2018-12-29",
-    "value": 23346000000,
+    "value": 23906000000,
     "form": "10-Q",
     "reportDate": "2018-12-29",
-    "rank": 0
+    "rank": 5
   },
-  "2019-03-30:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2019-03-30:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2019-03-30",
-    "value": 13415000000,
+    "value": 13793000000,
     "form": "10-Q",
     "reportDate": "2019-03-30",
-    "rank": 0
+    "rank": 5
   },
-  "2019-06-29:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2019-06-29:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2019-06-29",
-    "value": 11544000000,
+    "value": 11911000000,
     "form": "10-Q",
     "reportDate": "2019-06-29",
-    "rank": 0
+    "rank": 5
   },
-  "2019-09-28:10-K:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2019-09-28:10-K:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2019-09-28",
-    "value": 63930000000,
+    "value": 65737000000,
     "form": "10-K",
     "reportDate": "2019-09-28",
-    "rank": 0
+    "rank": 5
   },
-  "2019-12-28:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2019-12-28:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2019-12-28",
-    "value": 25569000000,
+    "value": 25918000000,
     "form": "10-Q",
     "reportDate": "2019-12-28",
-    "rank": 0
+    "rank": 5
   },
-  "2020-03-28:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2020-03-28:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2020-03-28",
-    "value": 12853000000,
+    "value": 13135000000,
     "form": "10-Q",
     "reportDate": "2020-03-28",
-    "rank": 0
+    "rank": 5
   },
-  "2020-06-27:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2020-06-27:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2020-06-27",
-    "value": 13091000000,
+    "value": 13137000000,
     "form": "10-Q",
     "reportDate": "2020-06-27",
-    "rank": 0
+    "rank": 5
   },
-  "2020-09-26:10-K:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2020-09-26:10-K:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2020-09-26",
-    "value": 66288000000,
+    "value": 67091000000,
     "form": "10-K",
     "reportDate": "2020-09-26",
-    "rank": 0
+    "rank": 5
   },
-  "2020-12-26:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2020-12-26:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2020-12-26",
-    "value": 33534000000,
+    "value": 33579000000,
     "form": "10-Q",
     "reportDate": "2020-12-26",
-    "rank": 0
+    "rank": 5
   },
-  "2021-03-27:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2021-03-27:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2021-03-27",
-    "value": 27503000000,
+    "value": 28011000000,
     "form": "10-Q",
     "reportDate": "2021-03-27",
-    "rank": 0
+    "rank": 5
   },
-  "2021-06-26:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2021-06-26:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2021-06-26",
-    "value": 24126000000,
+    "value": 24369000000,
     "form": "10-Q",
     "reportDate": "2021-06-26",
-    "rank": 0
+    "rank": 5
   },
-  "2021-09-25:10-K:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2021-09-25:10-K:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2021-09-25",
-    "value": 108949000000,
+    "value": 109207000000,
     "form": "10-K",
     "reportDate": "2021-09-25",
-    "rank": 0
+    "rank": 5
   },
-  "2021-12-25:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2021-12-25:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2021-12-25",
-    "value": 41488000000,
+    "value": 41241000000,
     "form": "10-Q",
     "reportDate": "2021-12-25",
-    "rank": 0
+    "rank": 5
   },
-  "2022-03-26:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2022-03-26:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2022-03-26",
-    "value": 29979000000,
+    "value": 30139000000,
     "form": "10-Q",
     "reportDate": "2022-03-26",
-    "rank": 0
+    "rank": 5
   },
-  "2022-06-25:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2022-06-25:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2022-06-25",
-    "value": 23076000000,
+    "value": 23066000000,
     "form": "10-Q",
     "reportDate": "2022-06-25",
-    "rank": 0
+    "rank": 5
   },
-  "2022-09-24:10-K:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2022-09-24:10-K:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2022-09-24",
-    "value": 119437000000,
+    "value": 119103000000,
     "form": "10-K",
     "reportDate": "2022-09-24",
-    "rank": 0
+    "rank": 5
   },
-  "2022-12-31:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2022-12-31:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2022-12-31",
-    "value": 36016000000,
+    "value": 35623000000,
     "form": "10-Q",
     "reportDate": "2022-12-31",
-    "rank": 0
+    "rank": 5
   },
-  "2023-04-01:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2023-04-01:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2023-04-01",
-    "value": 28318000000,
+    "value": 28382000000,
     "form": "10-Q",
     "reportDate": "2023-04-01",
-    "rank": 0
+    "rank": 5
   },
-  "2023-07-01:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2023-07-01:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2023-07-01",
-    "value": 22998000000,
+    "value": 22733000000,
     "form": "10-Q",
     "reportDate": "2023-07-01",
-    "rank": 0
+    "rank": 5
   },
-  "2023-09-30:10-K:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2023-09-30:10-K:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2023-09-30",
-    "value": 114301000000,
+    "value": 113736000000,
     "form": "10-K",
     "reportDate": "2023-09-30",
-    "rank": 0
+    "rank": 5
   },
-  "2023-12-30:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2023-12-30:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2023-12-30",
-    "value": 40373000000,
+    "value": 40323000000,
     "form": "10-Q",
     "reportDate": "2023-12-30",
-    "rank": 0
+    "rank": 5
   },
-  "2024-03-30:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2024-03-30:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2024-03-30",
-    "value": 27900000000,
+    "value": 28058000000,
     "form": "10-Q",
     "reportDate": "2024-03-30",
-    "rank": 0
+    "rank": 5
   },
-  "2024-06-29:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2024-06-29:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2024-06-29",
-    "value": 25352000000,
+    "value": 25494000000,
     "form": "10-Q",
     "reportDate": "2024-06-29",
-    "rank": 0
+    "rank": 5
   },
-  "2024-09-28:10-K:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2024-09-28:10-K:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2024-09-28",
-    "value": 123216000000,
+    "value": 123485000000,
     "form": "10-K",
     "reportDate": "2024-09-28",
-    "rank": 0
+    "rank": 5
   },
-  "2024-12-28:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2024-12-28:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2024-12-28",
-    "value": 42832000000,
+    "value": 42584000000,
     "form": "10-Q",
     "reportDate": "2024-12-28",
-    "rank": 0
+    "rank": 5
   },
-  "2025-03-29:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2025-03-29:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2025-03-29",
-    "value": 29589000000,
+    "value": 29310000000,
     "form": "10-Q",
     "reportDate": "2025-03-29",
-    "rank": 0
+    "rank": 5
   },
-  "2025-06-28:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2025-06-28:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2025-06-28",
-    "value": 28202000000,
+    "value": 28031000000,
     "form": "10-Q",
     "reportDate": "2025-06-28",
-    "rank": 0
+    "rank": 5
   },
-  "2025-09-27:10-K:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2025-09-27:10-K:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2025-09-27",
-    "value": 133050000000,
+    "value": 132729000000,
     "form": "10-K",
     "reportDate": "2025-09-27",
-    "rank": 0
+    "rank": 5
   },
-  "2025-12-27:10-Q:OP_INCOME": {
-    "metric": "OP_INCOME",
+  "2025-12-27:10-Q:PRETAX_INCOME": {
+    "metric": "PRETAX_INCOME",
     "date": "2025-12-27",
-    "value": 50852000000,
+    "value": 51002000000,
     "form": "10-Q",
     "reportDate": "2025-12-27",
-    "rank": 0
+    "rank": 5
   },
   "2015-03-28:10-Q:TAX": {
     "metric": "TAX",
@@ -2663,6 +3367,94 @@
     "reportDate": "2025-12-27",
     "rank": 0
   },
+  "2019-06-29:10-Q:INTEREST_EXPENSE": {
+    "metric": "INTEREST_EXPENSE",
+    "date": "2019-06-29",
+    "value": 866000000,
+    "form": "10-Q",
+    "reportDate": "2019-06-29",
+    "rank": 0
+  },
+  "2019-09-28:10-K:INTEREST_EXPENSE": {
+    "metric": "INTEREST_EXPENSE",
+    "date": "2019-09-28",
+    "value": 3576000000,
+    "form": "10-K",
+    "reportDate": "2019-09-28",
+    "rank": 0
+  },
+  "2019-12-28:10-Q:INTEREST_EXPENSE": {
+    "metric": "INTEREST_EXPENSE",
+    "date": "2019-12-28",
+    "value": 785000000,
+    "form": "10-Q",
+    "reportDate": "2019-12-28",
+    "rank": 0
+  },
+  "2020-03-28:10-Q:INTEREST_EXPENSE": {
+    "metric": "INTEREST_EXPENSE",
+    "date": "2020-03-28",
+    "value": 757000000,
+    "form": "10-Q",
+    "reportDate": "2020-03-28",
+    "rank": 0
+  },
+  "2020-06-27:10-Q:INTEREST_EXPENSE": {
+    "metric": "INTEREST_EXPENSE",
+    "date": "2020-06-27",
+    "value": 697000000,
+    "form": "10-Q",
+    "reportDate": "2020-06-27",
+    "rank": 0
+  },
+  "2020-09-26:10-K:INTEREST_EXPENSE": {
+    "metric": "INTEREST_EXPENSE",
+    "date": "2020-09-26",
+    "value": 2873000000,
+    "form": "10-K",
+    "reportDate": "2020-09-26",
+    "rank": 0
+  },
+  "2020-12-26:10-Q:INTEREST_EXPENSE": {
+    "metric": "INTEREST_EXPENSE",
+    "date": "2020-12-26",
+    "value": 638000000,
+    "form": "10-Q",
+    "reportDate": "2020-12-26",
+    "rank": 0
+  },
+  "2021-03-27:10-Q:INTEREST_EXPENSE": {
+    "metric": "INTEREST_EXPENSE",
+    "date": "2021-03-27",
+    "value": 670000000,
+    "form": "10-Q",
+    "reportDate": "2021-03-27",
+    "rank": 0
+  },
+  "2021-06-26:10-Q:INTEREST_EXPENSE": {
+    "metric": "INTEREST_EXPENSE",
+    "date": "2021-06-26",
+    "value": 665000000,
+    "form": "10-Q",
+    "reportDate": "2021-06-26",
+    "rank": 0
+  },
+  "2022-09-24:10-K:INTEREST_EXPENSE": {
+    "metric": "INTEREST_EXPENSE",
+    "date": "2022-09-24",
+    "value": 2931000000,
+    "form": "10-K",
+    "reportDate": "2022-09-24",
+    "rank": 0
+  },
+  "2023-09-30:10-K:INTEREST_EXPENSE": {
+    "metric": "INTEREST_EXPENSE",
+    "date": "2023-09-30",
+    "value": 3933000000,
+    "form": "10-K",
+    "reportDate": "2023-09-30",
+    "rank": 0
+  },
   "2015-03-28:10-Q:INTEREST_EXPENSE": {
     "metric": "INTEREST_EXPENSE",
     "date": "2015-03-28",
@@ -2799,78 +3591,6 @@
     "reportDate": "2019-03-30",
     "rank": 0
   },
-  "2019-06-29:10-Q:INTEREST_EXPENSE": {
-    "metric": "INTEREST_EXPENSE",
-    "date": "2019-06-29",
-    "value": 866000000,
-    "form": "10-Q",
-    "reportDate": "2019-06-29",
-    "rank": 0
-  },
-  "2019-09-28:10-K:INTEREST_EXPENSE": {
-    "metric": "INTEREST_EXPENSE",
-    "date": "2019-09-28",
-    "value": 3576000000,
-    "form": "10-K",
-    "reportDate": "2019-09-28",
-    "rank": 0
-  },
-  "2019-12-28:10-Q:INTEREST_EXPENSE": {
-    "metric": "INTEREST_EXPENSE",
-    "date": "2019-12-28",
-    "value": 785000000,
-    "form": "10-Q",
-    "reportDate": "2019-12-28",
-    "rank": 0
-  },
-  "2020-03-28:10-Q:INTEREST_EXPENSE": {
-    "metric": "INTEREST_EXPENSE",
-    "date": "2020-03-28",
-    "value": 757000000,
-    "form": "10-Q",
-    "reportDate": "2020-03-28",
-    "rank": 0
-  },
-  "2020-06-27:10-Q:INTEREST_EXPENSE": {
-    "metric": "INTEREST_EXPENSE",
-    "date": "2020-06-27",
-    "value": 697000000,
-    "form": "10-Q",
-    "reportDate": "2020-06-27",
-    "rank": 0
-  },
-  "2020-09-26:10-K:INTEREST_EXPENSE": {
-    "metric": "INTEREST_EXPENSE",
-    "date": "2020-09-26",
-    "value": 2873000000,
-    "form": "10-K",
-    "reportDate": "2020-09-26",
-    "rank": 0
-  },
-  "2020-12-26:10-Q:INTEREST_EXPENSE": {
-    "metric": "INTEREST_EXPENSE",
-    "date": "2020-12-26",
-    "value": 638000000,
-    "form": "10-Q",
-    "reportDate": "2020-12-26",
-    "rank": 0
-  },
-  "2021-03-27:10-Q:INTEREST_EXPENSE": {
-    "metric": "INTEREST_EXPENSE",
-    "date": "2021-03-27",
-    "value": 670000000,
-    "form": "10-Q",
-    "reportDate": "2021-03-27",
-    "rank": 0
-  },
-  "2021-06-26:10-Q:INTEREST_EXPENSE": {
-    "metric": "INTEREST_EXPENSE",
-    "date": "2021-06-26",
-    "value": 665000000,
-    "form": "10-Q",
-    "reportDate": "2021-06-26",
-    "rank": 0
-  },
   "2021-09-25:10-K:INTEREST_EXPENSE": {
     "metric": "INTEREST_EXPENSE",
     "date": "2021-09-25",
@@ -2903,14 +3623,6 @@
     "reportDate": "2022-06-25",
     "rank": 0
   },
-  "2022-09-24:10-K:INTEREST_EXPENSE": {
-    "metric": "INTEREST_EXPENSE",
-    "date": "2022-09-24",
-    "value": 2931000000,
-    "form": "10-K",
-    "reportDate": "2022-09-24",
-    "rank": 0
-  },
   "2022-12-31:10-Q:INTEREST_EXPENSE": {
     "metric": "INTEREST_EXPENSE",
     "date": "2022-12-31",
@@ -2935,12 +3647,356 @@
     "reportDate": "2023-07-01",
     "rank": 0
   },
-  "2023-09-30:10-K:INTEREST_EXPENSE": {
-    "metric": "INTEREST_EXPENSE",
+  "2015-03-28:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2015-03-28",
+    "value": 2396000000,
+    "form": "10-Q",
+    "reportDate": "2015-03-28",
+    "rank": 0
+  },
+  "2015-06-27:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2015-06-27",
+    "value": 2042000000,
+    "form": "10-Q",
+    "reportDate": "2015-06-27",
+    "rank": 0
+  },
+  "2015-09-26:10-K:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2015-09-26",
+    "value": 2349000000,
+    "form": "10-K",
+    "reportDate": "2015-09-26",
+    "rank": 0
+  },
+  "2015-12-26:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2015-12-26",
+    "value": 2451000000,
+    "form": "10-Q",
+    "reportDate": "2015-12-26",
+    "rank": 0
+  },
+  "2016-03-26:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2016-03-26",
+    "value": 2281000000,
+    "form": "10-Q",
+    "reportDate": "2016-03-26",
+    "rank": 0
+  },
+  "2016-06-25:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2016-06-25",
+    "value": 1831000000,
+    "form": "10-Q",
+    "reportDate": "2016-06-25",
+    "rank": 0
+  },
+  "2016-09-24:10-K:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2016-09-24",
+    "value": 2132000000,
+    "form": "10-K",
+    "reportDate": "2016-09-24",
+    "rank": 0
+  },
+  "2016-12-31:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2016-12-31",
+    "value": 2712000000,
+    "form": "10-Q",
+    "reportDate": "2016-12-31",
+    "rank": 0
+  },
+  "2017-04-01:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2017-04-01",
+    "value": 2910000000,
+    "form": "10-Q",
+    "reportDate": "2017-04-01",
+    "rank": 0
+  },
+  "2017-07-01:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2017-07-01",
+    "value": 3146000000,
+    "form": "10-Q",
+    "reportDate": "2017-07-01",
+    "rank": 0
+  },
+  "2017-09-30:10-K:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2017-09-30",
+    "value": 4855000000,
+    "form": "10-K",
+    "reportDate": "2017-09-30",
+    "rank": 0
+  },
+  "2017-12-30:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2017-12-30",
+    "value": 4421000000,
+    "form": "10-Q",
+    "reportDate": "2017-12-30",
+    "rank": 0
+  },
+  "2018-03-31:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2018-03-31",
+    "value": 7662000000,
+    "form": "10-Q",
+    "reportDate": "2018-03-31",
+    "rank": 0
+  },
+  "2018-06-30:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2018-06-30",
+    "value": 5936000000,
+    "form": "10-Q",
+    "reportDate": "2018-06-30",
+    "rank": 0
+  },
+  "2018-09-29:10-K:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2018-09-29",
+    "value": 3956000000,
+    "form": "10-K",
+    "reportDate": "2018-09-29",
+    "rank": 0
+  },
+  "2018-12-29:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2018-12-29",
+    "value": 4988000000,
+    "form": "10-Q",
+    "reportDate": "2018-12-29",
+    "rank": 0
+  },
+  "2019-03-30:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2019-03-30",
+    "value": 4884000000,
+    "form": "10-Q",
+    "reportDate": "2019-03-30",
+    "rank": 0
+  },
+  "2019-06-29:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2019-06-29",
+    "value": 3355000000,
+    "form": "10-Q",
+    "reportDate": "2019-06-29",
+    "rank": 0
+  },
+  "2019-09-28:10-K:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2019-09-28",
+    "value": 4106000000,
+    "form": "10-K",
+    "reportDate": "2019-09-28",
+    "rank": 0
+  },
+  "2019-12-28:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2019-12-28",
+    "value": 4097000000,
+    "form": "10-Q",
+    "reportDate": "2019-12-28",
+    "rank": 0
+  },
+  "2020-03-28:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2020-03-28",
+    "value": 3334000000,
+    "form": "10-Q",
+    "reportDate": "2020-03-28",
+    "rank": 0
+  },
+  "2020-06-27:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2020-06-27",
+    "value": 3978000000,
+    "form": "10-Q",
+    "reportDate": "2020-06-27",
+    "rank": 0
+  },
+  "2020-09-26:10-K:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2020-09-26",
+    "value": 4061000000,
+    "form": "10-K",
+    "reportDate": "2020-09-26",
+    "rank": 0
+  },
+  "2020-12-26:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2020-12-26",
+    "value": 4973000000,
+    "form": "10-Q",
+    "reportDate": "2020-12-26",
+    "rank": 0
+  },
+  "2021-03-27:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2021-03-27",
+    "value": 5219000000,
+    "form": "10-Q",
+    "reportDate": "2021-03-27",
+    "rank": 0
+  },
+  "2021-06-26:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2021-06-26",
+    "value": 5178000000,
+    "form": "10-Q",
+    "reportDate": "2021-06-26",
+    "rank": 0
+  },
+  "2021-09-25:10-K:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2021-09-25",
+    "value": 6580000000,
+    "form": "10-K",
+    "reportDate": "2021-09-25",
+    "rank": 0
+  },
+  "2021-12-25:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2021-12-25",
+    "value": 5876000000,
+    "form": "10-Q",
+    "reportDate": "2021-12-25",
+    "rank": 0
+  },
+  "2022-03-26:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2022-03-26",
+    "value": 5460000000,
+    "form": "10-Q",
+    "reportDate": "2022-03-26",
+    "rank": 0
+  },
+  "2022-06-25:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2022-06-25",
+    "value": 5433000000,
+    "form": "10-Q",
+    "reportDate": "2022-06-25",
+    "rank": 0
+  },
+  "2022-09-24:10-K:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2022-09-24",
+    "value": 4946000000,
+    "form": "10-K",
+    "reportDate": "2022-09-24",
+    "rank": 0
+  },
+  "2022-12-31:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2022-12-31",
+    "value": 6820000000,
+    "form": "10-Q",
+    "reportDate": "2022-12-31",
+    "rank": 0
+  },
+  "2023-04-01:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2023-04-01",
+    "value": 7482000000,
+    "form": "10-Q",
+    "reportDate": "2023-04-01",
+    "rank": 0
+  },
+  "2023-07-01:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2023-07-01",
+    "value": 7351000000,
+    "form": "10-Q",
+    "reportDate": "2023-07-01",
+    "rank": 0
+  },
+  "2023-09-30:10-K:INVENTORY": {
+    "metric": "INVENTORY",
     "date": "2023-09-30",
-    "value": 3933000000,
+    "value": 6331000000,
     "form": "10-K",
     "reportDate": "2023-09-30",
+    "rank": 0
+  },
+  "2023-12-30:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2023-12-30",
+    "value": 6511000000,
+    "form": "10-Q",
+    "reportDate": "2023-12-30",
+    "rank": 0
+  },
+  "2024-03-30:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2024-03-30",
+    "value": 6232000000,
+    "form": "10-Q",
+    "reportDate": "2024-03-30",
+    "rank": 0
+  },
+  "2024-06-29:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2024-06-29",
+    "value": 6165000000,
+    "form": "10-Q",
+    "reportDate": "2024-06-29",
+    "rank": 0
+  },
+  "2024-09-28:10-K:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2024-09-28",
+    "value": 7286000000,
+    "form": "10-K",
+    "reportDate": "2024-09-28",
+    "rank": 0
+  },
+  "2024-12-28:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2024-12-28",
+    "value": 6911000000,
+    "form": "10-Q",
+    "reportDate": "2024-12-28",
+    "rank": 0
+  },
+  "2025-03-29:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2025-03-29",
+    "value": 6269000000,
+    "form": "10-Q",
+    "reportDate": "2025-03-29",
+    "rank": 0
+  },
+  "2025-06-28:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2025-06-28",
+    "value": 5925000000,
+    "form": "10-Q",
+    "reportDate": "2025-06-28",
+    "rank": 0
+  },
+  "2025-09-27:10-K:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2025-09-27",
+    "value": 5718000000,
+    "form": "10-K",
+    "reportDate": "2025-09-27",
+    "rank": 0
+  },
+  "2025-12-27:10-Q:INVENTORY": {
+    "metric": "INVENTORY",
+    "date": "2025-12-27",
+    "value": 5875000000,
+    "form": "10-Q",
+    "reportDate": "2025-12-27",
     "rank": 0
   },
   "2015-03-28:10-Q:LONG_TERM_DEBT": {
@@ -4167,6 +5223,358 @@
     "reportDate": "2025-12-27",
     "rank": 0
   },
+  "2015-03-28:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2015-03-28",
+    "value": 18278000000,
+    "form": "10-Q",
+    "reportDate": "2015-03-28",
+    "rank": 0
+  },
+  "2015-06-27:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2015-06-27",
+    "value": 14083000000,
+    "form": "10-Q",
+    "reportDate": "2015-06-27",
+    "rank": 0
+  },
+  "2015-09-26:10-K:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2015-09-26",
+    "value": 71230000000,
+    "form": "10-K",
+    "reportDate": "2015-09-26",
+    "rank": 0
+  },
+  "2015-12-26:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2015-12-26",
+    "value": 24171000000,
+    "form": "10-Q",
+    "reportDate": "2015-12-26",
+    "rank": 0
+  },
+  "2016-03-26:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2016-03-26",
+    "value": 13987000000,
+    "form": "10-Q",
+    "reportDate": "2016-03-26",
+    "rank": 0
+  },
+  "2016-06-25:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2016-06-25",
+    "value": 10105000000,
+    "form": "10-Q",
+    "reportDate": "2016-06-25",
+    "rank": 0
+  },
+  "2016-09-24:10-K:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2016-09-24",
+    "value": 60024000000,
+    "form": "10-K",
+    "reportDate": "2016-09-24",
+    "rank": 0
+  },
+  "2016-12-31:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2016-12-31",
+    "value": 23359000000,
+    "form": "10-Q",
+    "reportDate": "2016-12-31",
+    "rank": 0
+  },
+  "2017-04-01:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2017-04-01",
+    "value": 14097000000,
+    "form": "10-Q",
+    "reportDate": "2017-04-01",
+    "rank": 0
+  },
+  "2017-07-01:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2017-07-01",
+    "value": 10768000000,
+    "form": "10-Q",
+    "reportDate": "2017-07-01",
+    "rank": 0
+  },
+  "2017-09-30:10-K:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2017-09-30",
+    "value": 61344000000,
+    "form": "10-K",
+    "reportDate": "2017-09-30",
+    "rank": 0
+  },
+  "2017-12-30:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2017-12-30",
+    "value": 26274000000,
+    "form": "10-Q",
+    "reportDate": "2017-12-30",
+    "rank": 0
+  },
+  "2018-03-31:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2018-03-31",
+    "value": 15894000000,
+    "form": "10-Q",
+    "reportDate": "2018-03-31",
+    "rank": 0
+  },
+  "2018-06-30:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2018-06-30",
+    "value": 12612000000,
+    "form": "10-Q",
+    "reportDate": "2018-06-30",
+    "rank": 0
+  },
+  "2018-09-29:10-K:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2018-09-29",
+    "value": 70898000000,
+    "form": "10-K",
+    "reportDate": "2018-09-29",
+    "rank": 0
+  },
+  "2018-12-29:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2018-12-29",
+    "value": 23346000000,
+    "form": "10-Q",
+    "reportDate": "2018-12-29",
+    "rank": 0
+  },
+  "2019-03-30:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2019-03-30",
+    "value": 13415000000,
+    "form": "10-Q",
+    "reportDate": "2019-03-30",
+    "rank": 0
+  },
+  "2019-06-29:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2019-06-29",
+    "value": 11544000000,
+    "form": "10-Q",
+    "reportDate": "2019-06-29",
+    "rank": 0
+  },
+  "2019-09-28:10-K:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2019-09-28",
+    "value": 63930000000,
+    "form": "10-K",
+    "reportDate": "2019-09-28",
+    "rank": 0
+  },
+  "2019-12-28:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2019-12-28",
+    "value": 25569000000,
+    "form": "10-Q",
+    "reportDate": "2019-12-28",
+    "rank": 0
+  },
+  "2020-03-28:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2020-03-28",
+    "value": 12853000000,
+    "form": "10-Q",
+    "reportDate": "2020-03-28",
+    "rank": 0
+  },
+  "2020-06-27:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2020-06-27",
+    "value": 13091000000,
+    "form": "10-Q",
+    "reportDate": "2020-06-27",
+    "rank": 0
+  },
+  "2020-09-26:10-K:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2020-09-26",
+    "value": 66288000000,
+    "form": "10-K",
+    "reportDate": "2020-09-26",
+    "rank": 0
+  },
+  "2020-12-26:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2020-12-26",
+    "value": 33534000000,
+    "form": "10-Q",
+    "reportDate": "2020-12-26",
+    "rank": 0
+  },
+  "2021-03-27:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2021-03-27",
+    "value": 27503000000,
+    "form": "10-Q",
+    "reportDate": "2021-03-27",
+    "rank": 0
+  },
+  "2021-06-26:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2021-06-26",
+    "value": 24126000000,
+    "form": "10-Q",
+    "reportDate": "2021-06-26",
+    "rank": 0
+  },
+  "2021-09-25:10-K:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2021-09-25",
+    "value": 108949000000,
+    "form": "10-K",
+    "reportDate": "2021-09-25",
+    "rank": 0
+  },
+  "2021-12-25:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2021-12-25",
+    "value": 41488000000,
+    "form": "10-Q",
+    "reportDate": "2021-12-25",
+    "rank": 0
+  },
+  "2022-03-26:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2022-03-26",
+    "value": 29979000000,
+    "form": "10-Q",
+    "reportDate": "2022-03-26",
+    "rank": 0
+  },
+  "2022-06-25:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2022-06-25",
+    "value": 23076000000,
+    "form": "10-Q",
+    "reportDate": "2022-06-25",
+    "rank": 0
+  },
+  "2022-09-24:10-K:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2022-09-24",
+    "value": 119437000000,
+    "form": "10-K",
+    "reportDate": "2022-09-24",
+    "rank": 0
+  },
+  "2022-12-31:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2022-12-31",
+    "value": 36016000000,
+    "form": "10-Q",
+    "reportDate": "2022-12-31",
+    "rank": 0
+  },
+  "2023-04-01:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2023-04-01",
+    "value": 28318000000,
+    "form": "10-Q",
+    "reportDate": "2023-04-01",
+    "rank": 0
+  },
+  "2023-07-01:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2023-07-01",
+    "value": 22998000000,
+    "form": "10-Q",
+    "reportDate": "2023-07-01",
+    "rank": 0
+  },
+  "2023-09-30:10-K:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2023-09-30",
+    "value": 114301000000,
+    "form": "10-K",
+    "reportDate": "2023-09-30",
+    "rank": 0
+  },
+  "2023-12-30:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2023-12-30",
+    "value": 40373000000,
+    "form": "10-Q",
+    "reportDate": "2023-12-30",
+    "rank": 0
+  },
+  "2024-03-30:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2024-03-30",
+    "value": 27900000000,
+    "form": "10-Q",
+    "reportDate": "2024-03-30",
+    "rank": 0
+  },
+  "2024-06-29:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2024-06-29",
+    "value": 25352000000,
+    "form": "10-Q",
+    "reportDate": "2024-06-29",
+    "rank": 0
+  },
+  "2024-09-28:10-K:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2024-09-28",
+    "value": 123216000000,
+    "form": "10-K",
+    "reportDate": "2024-09-28",
+    "rank": 0
+  },
+  "2024-12-28:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2024-12-28",
+    "value": 42832000000,
+    "form": "10-Q",
+    "reportDate": "2024-12-28",
+    "rank": 0
+  },
+  "2025-03-29:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2025-03-29",
+    "value": 29589000000,
+    "form": "10-Q",
+    "reportDate": "2025-03-29",
+    "rank": 0
+  },
+  "2025-06-28:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2025-06-28",
+    "value": 28202000000,
+    "form": "10-Q",
+    "reportDate": "2025-06-28",
+    "rank": 0
+  },
+  "2025-09-27:10-K:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2025-09-27",
+    "value": 133050000000,
+    "form": "10-K",
+    "reportDate": "2025-09-27",
+    "rank": 0
+  },
+  "2025-12-27:10-Q:OP_INCOME": {
+    "metric": "OP_INCOME",
+    "date": "2025-12-27",
+    "value": 50852000000,
+    "form": "10-Q",
+    "reportDate": "2025-12-27",
+    "rank": 0
+  },
   "2015-03-28:10-Q:DIV_PAID": {
     "metric": "DIV_PAID",
     "date": "2015-03-28",
@@ -5246,5 +6654,357 @@
     "form": "10-Q",
     "reportDate": "2025-12-27",
     "rank": 1
+  },
+  "2015-03-28:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2015-03-28",
+    "value": 5834858000,
+    "form": "10-Q",
+    "reportDate": "2015-03-28",
+    "rank": 0
+  },
+  "2015-06-27:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2015-06-27",
+    "value": 5773099000,
+    "form": "10-Q",
+    "reportDate": "2015-06-27",
+    "rank": 0
+  },
+  "2015-09-26:10-K:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2015-09-26",
+    "value": 5793069000,
+    "form": "10-K",
+    "reportDate": "2015-09-26",
+    "rank": 0
+  },
+  "2015-12-26:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2015-12-26",
+    "value": 5594127000,
+    "form": "10-Q",
+    "reportDate": "2015-12-26",
+    "rank": 0
+  },
+  "2016-03-26:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2016-03-26",
+    "value": 5540886000,
+    "form": "10-Q",
+    "reportDate": "2016-03-26",
+    "rank": 0
+  },
+  "2016-06-25:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2016-06-25",
+    "value": 5472781000,
+    "form": "10-Q",
+    "reportDate": "2016-06-25",
+    "rank": 0
+  },
+  "2016-09-24:10-K:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2016-09-24",
+    "value": 5500281000,
+    "form": "10-K",
+    "reportDate": "2016-09-24",
+    "rank": 0
+  },
+  "2016-12-31:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2016-12-31",
+    "value": 5327995000,
+    "form": "10-Q",
+    "reportDate": "2016-12-31",
+    "rank": 0
+  },
+  "2017-04-01:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2017-04-01",
+    "value": 5261688000,
+    "form": "10-Q",
+    "reportDate": "2017-04-01",
+    "rank": 0
+  },
+  "2017-07-01:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2017-07-01",
+    "value": 5233499000,
+    "form": "10-Q",
+    "reportDate": "2017-07-01",
+    "rank": 0
+  },
+  "2017-09-30:10-K:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2017-09-30",
+    "value": 5251692000,
+    "form": "10-K",
+    "reportDate": "2017-09-30",
+    "rank": 0
+  },
+  "2017-12-30:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2017-12-30",
+    "value": 5157787000,
+    "form": "10-Q",
+    "reportDate": "2017-12-30",
+    "rank": 0
+  },
+  "2018-03-31:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2018-03-31",
+    "value": 5068493000,
+    "form": "10-Q",
+    "reportDate": "2018-03-31",
+    "rank": 0
+  },
+  "2018-06-30:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2018-06-30",
+    "value": 4926609000,
+    "form": "10-Q",
+    "reportDate": "2018-06-30",
+    "rank": 0
+  },
+  "2018-09-29:10-K:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2018-09-29",
+    "value": 5000109000,
+    "form": "10-K",
+    "reportDate": "2018-09-29",
+    "rank": 0
+  },
+  "2018-12-29:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2018-12-29",
+    "value": 4773252000,
+    "form": "10-Q",
+    "reportDate": "2018-12-29",
+    "rank": 0
+  },
+  "2019-03-30:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2019-03-30",
+    "value": 4700646000,
+    "form": "10-Q",
+    "reportDate": "2019-03-30",
+    "rank": 0
+  },
+  "2019-06-29:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2019-06-29",
+    "value": 4601380000,
+    "form": "10-Q",
+    "reportDate": "2019-06-29",
+    "rank": 0
+  },
+  "2019-09-28:10-K:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2019-09-28",
+    "value": 4648913000,
+    "form": "10-K",
+    "reportDate": "2019-09-28",
+    "rank": 0
+  },
+  "2019-12-28:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2019-12-28",
+    "value": 4454604000,
+    "form": "10-Q",
+    "reportDate": "2019-12-28",
+    "rank": 0
+  },
+  "2020-03-28:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2020-03-28",
+    "value": 4404691000,
+    "form": "10-Q",
+    "reportDate": "2020-03-28",
+    "rank": 0
+  },
+  "2020-06-27:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2020-06-27",
+    "value": 4354788000,
+    "form": "10-Q",
+    "reportDate": "2020-06-27",
+    "rank": 0
+  },
+  "2020-09-26:10-K:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2020-09-26",
+    "value": 17528214000,
+    "form": "10-K",
+    "reportDate": "2020-09-26",
+    "rank": 0
+  },
+  "2020-12-26:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2020-12-26",
+    "value": 17113688000,
+    "form": "10-Q",
+    "reportDate": "2020-12-26",
+    "rank": 0
+  },
+  "2021-03-27:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2021-03-27",
+    "value": 16929157000,
+    "form": "10-Q",
+    "reportDate": "2021-03-27",
+    "rank": 0
+  },
+  "2021-06-26:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2021-06-26",
+    "value": 16781735000,
+    "form": "10-Q",
+    "reportDate": "2021-06-26",
+    "rank": 0
+  },
+  "2021-09-25:10-K:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2021-09-25",
+    "value": 16864919000,
+    "form": "10-K",
+    "reportDate": "2021-09-25",
+    "rank": 0
+  },
+  "2021-12-25:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2021-12-25",
+    "value": 16519291000,
+    "form": "10-Q",
+    "reportDate": "2021-12-25",
+    "rank": 0
+  },
+  "2022-03-26:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2022-03-26",
+    "value": 16403316000,
+    "form": "10-Q",
+    "reportDate": "2022-03-26",
+    "rank": 0
+  },
+  "2022-06-25:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2022-06-25",
+    "value": 16262203000,
+    "form": "10-Q",
+    "reportDate": "2022-06-25",
+    "rank": 0
+  },
+  "2022-09-24:10-K:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2022-09-24",
+    "value": 16325819000,
+    "form": "10-K",
+    "reportDate": "2022-09-24",
+    "rank": 0
+  },
+  "2022-12-31:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2022-12-31",
+    "value": 15955718000,
+    "form": "10-Q",
+    "reportDate": "2022-12-31",
+    "rank": 0
+  },
+  "2023-04-01:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2023-04-01",
+    "value": 15847050000,
+    "form": "10-Q",
+    "reportDate": "2023-04-01",
+    "rank": 0
+  },
+  "2023-07-01:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2023-07-01",
+    "value": 15775021000,
+    "form": "10-Q",
+    "reportDate": "2023-07-01",
+    "rank": 0
+  },
+  "2023-09-30:10-K:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2023-09-30",
+    "value": 15812547000,
+    "form": "10-K",
+    "reportDate": "2023-09-30",
+    "rank": 0
+  },
+  "2023-12-30:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2023-12-30",
+    "value": 15576641000,
+    "form": "10-Q",
+    "reportDate": "2023-12-30",
+    "rank": 0
+  },
+  "2024-03-30:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2024-03-30",
+    "value": 15464709000,
+    "form": "10-Q",
+    "reportDate": "2024-03-30",
+    "rank": 0
+  },
+  "2024-06-29:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2024-06-29",
+    "value": 15348175000,
+    "form": "10-Q",
+    "reportDate": "2024-06-29",
+    "rank": 0
+  },
+  "2024-09-28:10-K:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2024-09-28",
+    "value": 15408095000,
+    "form": "10-K",
+    "reportDate": "2024-09-28",
+    "rank": 0
+  },
+  "2024-12-28:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2024-12-28",
+    "value": 15150865000,
+    "form": "10-Q",
+    "reportDate": "2024-12-28",
+    "rank": 0
+  },
+  "2025-03-29:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2025-03-29",
+    "value": 15056133000,
+    "form": "10-Q",
+    "reportDate": "2025-03-29",
+    "rank": 0
+  },
+  "2025-06-28:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2025-06-28",
+    "value": 14948179000,
+    "form": "10-Q",
+    "reportDate": "2025-06-28",
+    "rank": 0
+  },
+  "2025-09-27:10-K:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2025-09-27",
+    "value": 15004697000,
+    "form": "10-K",
+    "reportDate": "2025-09-27",
+    "rank": 0
+  },
+  "2025-12-27:10-Q:WEIGHTED_AVG_SHARES_DILUTED": {
+    "metric": "WEIGHTED_AVG_SHARES_DILUTED",
+    "date": "2025-12-27",
+    "value": 14810356000,
+    "form": "10-Q",
+    "reportDate": "2025-12-27",
+    "rank": 0
   }
 }

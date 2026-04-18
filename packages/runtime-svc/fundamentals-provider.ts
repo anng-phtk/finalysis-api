@@ -44,8 +44,8 @@ export async function FinancialGridProvider(processedFile: string, formType: str
     const uniqueDates = new Set<string>();
     const fastLookup: Record<string, number> = {};
     const formLookup: Map<string, string> = new Map<string, string>();
-    
-    
+
+
     for (const fact of Object.values<any>(rawData)) {
 
         if (fact.form.startsWith(formType) || formType === 'both') {
@@ -54,12 +54,12 @@ export async function FinancialGridProvider(processedFile: string, formType: str
             formLookup.set(fact.reportDate, fact.form);
         }
     }
-    
+
 
     // Lock the master timeline descending
     const reportedPeriods = Array.from(uniqueDates).sort((a, b) => Date.parse(b) - Date.parse(a));
 
-   
+
     const grid: ColumnarGrid = {
         reportedPeriods
     };
@@ -94,44 +94,167 @@ export async function FinancialGridProvider(processedFile: string, formType: str
             const val1 = deps[1];
 
             switch (calcKey) {
-                case "FREE_CASH_FLOW": return (val0 != null && val1 != null) ? val0 - val1 : null;
-                case "OPERATING_MARGIN":
-                case "NET_MARGIN": return val1 ? val0! / val1 : null;
-                case "TOTAL_DEBT": return (val0 != null && val1 != null) ? val0 + val1 : null;
-                case "ROE":
-                case "DEBT_TO_EQUITY": return val1 ? val0! / val1 : null;
-                case "FCF_TO_CAPEX": return (val0 != null && val1) ? val0 / Math.abs(val1) : null;
-                case "YOY_REVENUE_GROWTH":
-                case "YOY_NET_INCOME_GROWTH":
-                case "YOY_FCF_GROWTH":
-                    return (val0 != null && prevDeps[0]) ? (val0 - prevDeps[0]) / Math.abs(prevDeps[0]) : null;
-                case "ROIC": {
-                    // deps[0] = OP_INCOME, deps[1] = TAX
-                    const nopat = (val0 != null && val1 != null) ? val0 - val1 : null;
-                    // deps[2] = TOTAL_EQUITY, deps[3] = TOTAL_DEBT
-                    const investedCap = (deps[2] != null) ? deps[2] + (deps[3] || 0) : null;
-                    return (nopat != null && investedCap) ? nopat / investedCap : null;
+                // -------- Already correct (keep as is) --------
+                case "FREE_CASH_FLOW": {
+                    const ocf = deps[0];
+                    const capex = deps[1];
+                    return (ocf != null && capex != null) ? ocf - capex : null;
                 }
 
-                // --- RESTORED: CAGRs ---
+                case "OPERATING_MARGIN":
+                case "NET_MARGIN": {
+                    const numerator = deps[0];
+                    const denominator = deps[1];
+                    if (denominator != null && denominator !== 0 && numerator != null) {
+                        return numerator / denominator;
+                    }
+                    return null;
+                }
+
+                case "TOTAL_DEBT": {
+                    const shortTerm = deps[0];
+                    const longTerm = deps[1];
+                    return (shortTerm != null && longTerm != null) ? shortTerm + longTerm : null;
+                }
+
+                case "FCF_TO_CAPEX": {
+                    const fcf = deps[0];
+                    const capex = deps[1];
+                    return (fcf != null && capex != null && capex !== 0) ? fcf / Math.abs(capex) : null;
+                }
+
+                case "YOY_REVENUE_GROWTH":
+                case "YOY_NET_INCOME_GROWTH":
+                case "YOY_FCF_GROWTH": {
+                    const current = deps[0];
+                    const previous = prevDeps[0];
+                    if (current != null && previous != null && previous !== 0) {
+                        return (current - previous) / Math.abs(previous);
+                    }
+                    return null;
+                }
+
                 case "REVENUE_CAGR_3Y":
                 case "NET_INC_CAGR_3Y": {
-                    // Because index 0 is the NEWEST date, index + 3 looks exactly 3 years into the past
-                    const old3Y = grid[config.deps[0]!]?.[index + 3] as number | null;
-                    if (val0 != null && old3Y != null && old3Y > 0 && val0 > 0) {
-                        return Math.pow(val0 / old3Y, 1 / 3) - 1;
+                    const current = deps[0];
+                    const old3Y = grid[config.deps[0]!]?.[index + 3] as number | null | undefined;
+                    if (current != null && old3Y != null && old3Y > 0 && current > 0) {
+                        return Math.pow(current / old3Y, 1 / 3) - 1;
                     }
                     return null;
                 }
 
                 case "REVENUE_CAGR_5Y":
                 case "NET_INC_CAGR_5Y": {
-                    // Look 5 years into the past
-                    const old5Y = grid[config.deps[0]!]?.[index + 5] as number | null;
-                    if (val0 != null && old5Y != null && old5Y > 0 && val0 > 0) {
-                        return Math.pow(val0 / old5Y, 1 / 5) - 1;
+                    const current = deps[0];
+                    const old5Y = grid[config.deps[0]!]?.[index + 5] as number | null | undefined;
+                    if (current != null && old5Y != null && old5Y > 0 && current > 0) {
+                        return Math.pow(current / old5Y, 1 / 5) - 1;
                     }
                     return null;
+                }
+
+                // -------- FIXED: ROE (prefer parent equity) --------
+                case "ROE": {
+                    const netIncome = deps[0];
+                    const totalEquity = deps[1];
+                    const parentEquity = grid["EQUITY_ATTRIBUTABLE_TO_PARENT"]?.[index] as number | null | undefined;
+                    const equity = parentEquity != null ? parentEquity : totalEquity;
+                    if (netIncome != null && equity != null && equity !== 0) {
+                        return netIncome / equity;
+                    }
+                    return null;
+                }
+
+                // -------- FIXED: DEBT_TO_EQUITY (prefer parent equity) --------
+                case "DEBT_TO_EQUITY": {
+                    const totalDebt = grid["TOTAL_DEBT"]?.[index] as number | null | undefined;
+                    const totalEquity = deps[1];
+                    const parentEquity = grid["EQUITY_ATTRIBUTABLE_TO_PARENT"]?.[index] as number | null | undefined;
+                    const equity = parentEquity != null ? parentEquity : totalEquity;
+                    if (totalDebt != null && equity != null && equity !== 0) {
+                        return totalDebt / equity;
+                    }
+                    return null;
+                }
+
+                // -------- FIXED: ROIC (using effective tax rate) --------
+                case "ROIC": {
+                    const opInc = deps[0];
+                    const tax = deps[1];
+                    const totalEquity = deps[2];
+                    const totalDebt = deps[3];
+
+                    // Get pretax income for tax rate calculation
+                    const pretax = grid["PRETAX_INCOME"]?.[index] as number | null | undefined;
+
+                    let effTaxRate: number | null = null;
+                    if (pretax != null && pretax !== 0 && tax != null) {
+                        effTaxRate = tax / pretax;
+                    } else {
+                        const netInc = grid["NET_INCOME"]?.[index] as number | null | undefined;
+                        if (netInc != null && tax != null && (netInc + tax) !== 0) {
+                            effTaxRate = tax / (netInc + tax);
+                        }
+                    }
+
+                    const nopat = (opInc != null && effTaxRate != null) ? opInc * (1 - effTaxRate) : null;
+                    const investedCap = (totalEquity != null) ? totalEquity + (totalDebt || 0) : null;
+
+                    if (nopat != null && investedCap != null && investedCap !== 0) {
+                        return nopat / investedCap;
+                    }
+                    return null;
+                }
+
+                // -------- NEW CALCULATIONS --------
+                case "EFFECTIVE_TAX_RATE": {
+                    const tax = deps[0];
+                    const pretax = grid["PRETAX_INCOME"]?.[index] as number | null | undefined;
+                    if (pretax != null && pretax !== 0 && tax != null) {
+                        return tax / pretax;
+                    }
+                    return null;
+                }
+
+                case "NOPAT": {
+                    const opInc = deps[0];
+                    const taxRate = grid["EFFECTIVE_TAX_RATE"]?.[index] as number | null | undefined;
+                    if (opInc != null && taxRate != null) {
+                        return opInc * (1 - taxRate);
+                    }
+                    return null;
+                }
+
+                case "FCFF": {
+                    const ocf = grid["OP_CASH_FLOW"]?.[index] as number | null | undefined;
+                    const capex = grid["CAPEX"]?.[index] as number | null | undefined;
+                    const interest = grid["INTEREST_EXPENSE"]?.[index] as number | null | undefined;
+                    const taxRate = grid["EFFECTIVE_TAX_RATE"]?.[index] as number | null | undefined;
+
+                    if (ocf != null && capex != null) {
+                        let adjustment = 0;
+                        if (interest != null && taxRate != null) {
+                            adjustment = interest * (1 - taxRate);
+                        }
+                        return ocf - capex + adjustment;
+                    }
+                    return null;
+                }
+
+                case "INVESTED_CAPITAL": {
+                    const totalEquity = deps[0];
+                    const totalDebt = deps[1];
+                    if (totalEquity != null) {
+                        return totalEquity + (totalDebt || 0);
+                    }
+                    return null;
+                }
+
+                case "FCFE": {
+                    // Alias for FREE_CASH_FLOW
+                    const fcfe = grid["FREE_CASH_FLOW"]?.[index] as number | null | undefined;
+                    return fcfe != null ? fcfe : null;
                 }
 
                 default:

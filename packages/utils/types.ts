@@ -17,19 +17,29 @@ export interface FetchOptions {
 
 export const REPORTED_METRICS = {
     // -------- Income Statement (FLOW) --------
+    RECEIVABLES: {
+        label: "Accounts Receivable",
+        tags: ["AccountsReceivableNetCurrent", "AccountsReceivableGross", "TradeAccountsReceivable"],
+        opts: { unit: "USD", kind: "INSTANT" }
+    },
+    INVENTORY: {
+        label: "Inventory",
+        tags: ["InventoryNet", "InventoryGross", "MerchandiseInventory"],
+        opts: { unit: "USD", kind: "INSTANT" }
+    },
+    PAYABLES: {
+        label: "Accounts Payable",
+        tags: ["AccountsPayableCurrent", "TradeAccountsPayable"],
+        opts: { unit: "USD", kind: "INSTANT" }
+    },
     REVENUE: {
         label: "Revenue",
         tags: [
-            // 1) broad / common
             "Revenues",
             "SalesRevenueNet",
             "RevenuesNetOfInterestExpense", // banks
-
-            // 2) ASC 606 / modern
             "RevenueFromContractWithCustomerExcludingAssessedTax",
             "RevenueFromContractWithCustomerIncludingAssessedTax",
-
-            // 3) industry-specific fallbacks
             "SalesRevenueServicesNet",
             "SalesRevenueGoodsNet",
             "OilAndGasRevenue",
@@ -44,11 +54,23 @@ export const REPORTED_METRICS = {
         label: "Operating Income",
         tags: [
             "OperatingIncomeLoss",
-
-            // fallbacks (be careful: these are “above tax” but not always “operating”)
             "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
             "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments",
             "IncomeLossFromContinuingOperationsIncludingPortionAttributableToNoncontrollingInterest",
+        ],
+        opts: { unit: "USD", kind: "FLOW" },
+    },
+
+    // ✅ NEW: Pretax Income (needed for effective tax rate and FCFF)
+    PRETAX_INCOME: {
+        label: "Pretax Income",
+        tags: [
+            "IncomeLossBeforeTax",
+            "IncomeBeforeTax",
+            "IncomeBeforeIncomeTax",
+            "IncomeFromContinuingOperationsBeforeTax",
+            "IncomeLossFromContinuingOperationsBeforeIncomeTaxes",
+            "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
         ],
         opts: { unit: "USD", kind: "FLOW" },
     },
@@ -70,6 +92,17 @@ export const REPORTED_METRICS = {
             "IncomeLossFromContinuingOperationsPerDilutedShare",
         ],
         opts: { unit: "USD/shares", kind: "FLOW" },
+    },
+
+    // ✅ NEW: Weighted average shares (for your own EPS calculations / sanity checks)
+    WEIGHTED_AVG_SHARES_DILUTED: {
+        label: "Weighted Avg Shares (Diluted)",
+        tags: [
+            "WeightedAverageNumberOfDilutedSharesOutstanding",
+            "WeightedAverageNumberOfSharesOutstandingBasic",
+            "WeightedAverageNumberOfShareOutstandingBasicAndDiluted",
+        ],
+        opts: { unit: "shares", kind: "FLOW" },
     },
 
     // -------- Cash Flow (FLOW) --------
@@ -127,6 +160,7 @@ export const REPORTED_METRICS = {
         opts: { unit: "USD", kind: "FLOW" },
     },
 
+    // ✅ Expanded synonyms for Interest Expense (to cover more S&P500 filings)
     INTEREST_EXPENSE: {
         label: "Interest Expense",
         tags: [
@@ -135,13 +169,15 @@ export const REPORTED_METRICS = {
             "InterestExpenseOther",
             "InterestAndOtherDebtExpense",
             "InterestCost",
-            "InterestIncomeExpense",
+            "InterestIncomeExpense",      // may be net; use cautiously
             "InterestOnDebt",
             "InterestAccrued",
-            // NOTE: "InterestPaid" is cash-flow-ish and can contaminate this metric.
-            // Keep it only if you explicitly want that behavior.
-            // "InterestPaid",
-            // "InterestPaidNet",
+            "InterestExpenseOperating",
+            "InterestExpenseLongTermDebt",
+            "InterestExpenseShortTermDebt",
+            "InterestCostsIncurred",
+            "InterestOnBorrowings",
+            // Exclude "InterestPaid" (that's cash flow, not accrual)
         ],
         opts: { unit: "USD", kind: "FLOW" },
     },
@@ -153,6 +189,17 @@ export const REPORTED_METRICS = {
             "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest",
             "StockholdersEquity",
             "StockholdersEquityAttributableToParent",
+        ],
+        opts: { unit: "USD", kind: "INSTANT" },
+    },
+
+    // ✅ NEW: Parent-only equity (cleaner for ROE and DCF)
+    EQUITY_ATTRIBUTABLE_TO_PARENT: {
+        label: "Equity Attributable to Parent",
+        tags: [
+            "StockholdersEquityAttributableToParent",
+            "StockholdersEquityExcludingNoncontrollingInterest",
+            "CommonStockholdersEquity",
         ],
         opts: { unit: "USD", kind: "INSTANT" },
     },
@@ -182,16 +229,14 @@ export const REPORTED_METRICS = {
     SHORT_TERM_DEBT: {
         label: "Short-term Debt",
         tags: [
-            "DebtCurrent",           // often a superset
-            "ShortTermBorrowings",   // subset
-            "LongTermDebtCurrent",   // current portion of LTD
+            "DebtCurrent",
+            "ShortTermBorrowings",
+            "LongTermDebtCurrent",
             "CurrentPortionOfLongTermDebt",
         ],
         opts: { unit: "USD", kind: "INSTANT" },
     },
 
-    // IMPORTANT: split shares concepts
-    // - SHARES_OUTSTANDING is balance-sheet snapshot -> INSTANT
     SHARES_OUTSTANDING: {
         label: "Shares Outstanding",
         tags: [
@@ -202,7 +247,6 @@ export const REPORTED_METRICS = {
         opts: { unit: "shares", kind: "INSTANT" },
     },
 
-    // Dividends (FLOW)
     DIV_PER_SHARE: {
         label: "Dividends Per Share",
         tags: [
@@ -221,12 +265,11 @@ export const REPORTED_METRICS = {
             "PaymentsOfDividends",
             "PaymentsOfOrdinaryDividends",
             "DividendsCommonStockCash",
-            "Dividends", // catch-all (use cautiously)
+            "Dividends",
         ],
         opts: { unit: "USD", kind: "FLOW" },
     },
 } as const;
-
 
 /**
  * ----------------------------
@@ -235,27 +278,25 @@ export const REPORTED_METRICS = {
  * NO tags here.
  */
 export const CALCULATED_METRICS = {
+    // -------- Previously existing (corrected where needed) --------
     FREE_CASH_FLOW: {
         label: "Free Cash Flow",
         unit: "USD",
         kind: "FLOW" as const,
         deps: ["OP_CASH_FLOW", "CAPEX"],
     },
-
     OPERATING_MARGIN: {
         label: "Operating Margin",
         unit: "%",
         kind: "FLOW" as const,
         deps: ["OP_INCOME", "REVENUE"],
     },
-
     NET_MARGIN: {
         label: "Net Margin",
         unit: "%",
         kind: "FLOW" as const,
         deps: ["NET_INCOME", "REVENUE"],
     },
-
     TOTAL_DEBT: {
         label: "Total Debt",
         unit: "USD",
@@ -266,13 +307,13 @@ export const CALCULATED_METRICS = {
         label: "Return on Equity",
         unit: "%",
         kind: "FLOW" as const,
-        deps: ["NET_INCOME", "TOTAL_EQUITY"],
+        deps: ["NET_INCOME", "TOTAL_EQUITY"],      // uses parent equity if available in calculation
     },
     DEBT_TO_EQUITY: {
         label: "Debt to Equity",
-        unit: "pure", // Note: you might need to add "pure" to your ExtractSeriesOptions unit type!
+        unit: "pure",
         kind: "INSTANT" as const,
-        deps: ["TOTAL_DEBT", "TOTAL_EQUITY"],
+        deps: ["TOTAL_DEBT", "TOTAL_EQUITY"],      // parent equity preferred
     },
     FCF_TO_CAPEX: {
         label: "FCF to Capex",
@@ -308,52 +349,67 @@ export const CALCULATED_METRICS = {
         label: "3 Yr Revenue CAGR",
         unit: "%",
         kind: "FLOW" as const,
-        deps: ["REVENUE"]
+        deps: ["REVENUE"],
     },
     NET_INC_CAGR_3Y: {
         label: "3 Yr Net Income CAGR",
         unit: "%",
         kind: "FLOW" as const,
-        deps: ["NET_INCOME"]
+        deps: ["NET_INCOME"],
     },
     REVENUE_CAGR_5Y: {
-        label: "3 Yr Revenue CAGR",
+        label: "5 Yr Revenue CAGR",      // Fixed label (was "3 Yr")
         unit: "%",
         kind: "FLOW" as const,
-        deps: ["REVENUE"]
+        deps: ["REVENUE"],
     },
     NET_INC_CAGR_5Y: {
         label: "5 Yr Net Income CAGR",
         unit: "%",
         kind: "FLOW" as const,
-        deps: ["NET_INCOME"]
+        deps: ["NET_INCOME"],
     },
-    /*
-    // --- CAGRs ---
-                // Formula: (Current / Oldest)^(1/Years) - 1
-                // 3Y CAGR looks back 3 periods (index + 3)
-                case "REVENUE_CAGR_3Y":
-                case "NET_INC_CAGR_3Y":
-                    const old3Y = grid[config.deps[0]!]?.[index + 3] as number | null;
-                    if (val0 != null && old3Y != null && old3Y > 0 && val0 > 0) {
-                        return Math.pow(val0 / old3Y, 1 / 3) - 1;
-                    }
-                    return null;
 
-                case "REVENUE_CAGR_5Y":
-                case "NET_INC_CAGR_5Y":
-                    const old5Y = grid[config.deps[0]!]?.[index + 5] as number | null;
-                    if (val0 != null && old5Y != null && old5Y > 0 && val0 > 0) {
-                        return Math.pow(val0 / old5Y, 1 / 5) - 1;
-                    }
-                    return null;
-    */
+    // -------- NEW metrics for intrinsic value & better analysis --------
+    EFFECTIVE_TAX_RATE: {
+        label: "Effective Tax Rate",
+        unit: "%",
+        kind: "FLOW" as const,
+        deps: ["TAX"],                     // Also needs PRETAX_INCOME (handled in calc logic)
+    },
+    NOPAT: {
+        label: "NOPAT (Net Operating Profit After Tax)",
+        unit: "USD",
+        kind: "FLOW" as const,
+        deps: ["OP_INCOME"],
+    },
+    FCFF: {
+        label: "Free Cash Flow to Firm",
+        unit: "USD",
+        kind: "FLOW" as const,
+        deps: ["OP_CASH_FLOW", "CAPEX"],    // Interest & tax rate used internally
+    },
+    INVESTED_CAPITAL: {
+        label: "Invested Capital",
+        unit: "USD",
+        kind: "INSTANT" as const,
+        deps: ["TOTAL_EQUITY", "TOTAL_DEBT"],
+    },
+    FCFE: {
+        label: "Free Cash Flow to Equity",
+        unit: "USD",
+        kind: "FLOW" as const,
+        deps: ["FREE_CASH_FLOW"],          // already defined, but added for clarity
+    },
+    
 } as const;
+
+// Type helper
+export type CalculatedMetricKey = keyof typeof CALCULATED_METRICS;
 
 // convenience over purity
 // purity might create circular imports
 export type ReportedMetricKey = keyof typeof REPORTED_METRICS;
-export type CalculatedMetricKey = keyof typeof CALCULATED_METRICS;
 
 // Combined key (handy for UI dictionaries)
 export type MetricKey = ReportedMetricKey | CalculatedMetricKey;
