@@ -4,39 +4,36 @@ import type { FetchOptions } from "../utils/types.js";
 import { extractFacts } from "../facts-svc/fact-extractor.js";
 import { REPORTED_METRICS, CALCULATED_METRICS, type ReportedMetricKey, type CalculatedMetricKey } from "../utils/types.js";
 import fs from 'node:fs';
+import { type ColumnarGrid } from "../utils/types.js";
 
 export interface FundamentalsOptions {
     ticker: string;
     periods: 3 | 5 | 'all';
-    formType: '10-K' | '10-Q';
+    formType: '10-K' | '10-Q' | 'both';
     refresh: boolean | false;
 }
 
 export const fundamentalsProvider = async (opts: FundamentalsOptions) => {
     const cik = await getCIK(opts.ticker);
     if (!cik || !cik.length) throw new Error(`No SEC identifier (CIK) found for ${opts.ticker}`);
-    
+
     const options: FetchOptions = { force: opts.refresh || false };
-    
+
     // 1. Data Access (Network/Cache)
     const indexFile = await ensureCompanyFactsIndex(cik, options);
     const factFile = await ensureCompanyFacts(cik, options);
-    
+
     // 2. Data Engineering (Deduplication / Stream)
     const processedFile = await extractFacts(opts.ticker, indexFile, factFile, options);
 
     // 3. Financial Engineering (Pivoting / Math)
     const columnarData = await FinancialGridProvider(processedFile, opts.formType);
-    
+
     // 4. Send it back to the Controller!
     return columnarData;
 }
 
 
-export type ColumnarGrid = {
-    reportedPeriods: string[];
-    [metricKey: string]: (number | null | string)[];
-};
 
 export async function FinancialGridProvider(processedFile: string, formType: string): Promise<ColumnarGrid> {
 
@@ -46,28 +43,40 @@ export async function FinancialGridProvider(processedFile: string, formType: str
     // STEP 2: Pass 1 - Build Timeline & Fast Lookup
     const uniqueDates = new Set<string>();
     const fastLookup: Record<string, number> = {};
-
+    const formLookup: Map<string, string> = new Map<string, string>();
+    
+    
     for (const fact of Object.values<any>(rawData)) {
-        if (fact.form.startsWith(formType)) {
+
+        if (fact.form.startsWith(formType) || formType === 'both') {
             uniqueDates.add(fact.reportDate);
-            fastLookup[`${fact.metric}_${fact.reportDate}`] = fact.value;
+            fastLookup[`${fact.metric}:${fact.reportDate}`] = fact.value;
+            formLookup.set(fact.reportDate, fact.form);
         }
     }
+    
 
     // Lock the master timeline descending
     const reportedPeriods = Array.from(uniqueDates).sort((a, b) => Date.parse(b) - Date.parse(a));
 
+   
     const grid: ColumnarGrid = {
         reportedPeriods
     };
 
     // STEP 3: Pass 2 - Pivot Reported Metrics
     const metricKeys = Object.keys(REPORTED_METRICS) as ReportedMetricKey[];
-    
+
+    for (const key of metricKeys) {
+        grid['FORM_TYPE'] = reportedPeriods.map(date => {
+            const lookupKey = `${date}`;
+            return formLookup.get(lookupKey) ?? null;
+        });
+    }
     for (const key of metricKeys) {
         grid[key] = reportedPeriods.map(date => {
-            const lookupKey = `${key}_${date}`;
-            return fastLookup[lookupKey] ?? null; 
+            const lookupKey = `${key}:${date}`;
+            return fastLookup[lookupKey] ?? null;
         });
     }
 
@@ -80,7 +89,7 @@ export async function FinancialGridProvider(processedFile: string, formType: str
         grid[calcKey] = reportedPeriods.map((_, index) => {
             const deps = config.deps.map(dep => grid[dep]?.[index] as number | null);
             const prevDeps = config.deps.map(dep => grid[dep]?.[index + 1] as number | null);
-            
+
             const val0 = deps[0];
             const val1 = deps[1];
 
@@ -125,7 +134,7 @@ export async function FinancialGridProvider(processedFile: string, formType: str
                     return null;
                 }
 
-                default: 
+                default:
                     console.warn(`[Math Engine]: Calculation not implemented for ${calcKey}`);
                     return null;
             }
@@ -138,8 +147,8 @@ export async function FinancialGridProvider(processedFile: string, formType: str
 }
 
 await fundamentalsProvider({
-    ticker:'AAPL',
-    formType:'10-K',
-    periods:'all',
-    refresh:true
+    ticker: 'AAPL',
+    formType: '10-K',
+    periods: 'all',
+    refresh: true
 } as FundamentalsOptions);

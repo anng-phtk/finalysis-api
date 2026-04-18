@@ -358,3 +358,8 @@ export type CalculatedMetricKey = keyof typeof CALCULATED_METRICS;
 // Combined key (handy for UI dictionaries)
 export type MetricKey = ReportedMetricKey | CalculatedMetricKey;
 export type MetricKind = "INSTANT" | "FLOW";
+
+export type ColumnarGrid = {
+    reportedPeriods: string[];
+    [metricKey: string]: (number | null | string)[];
+};
