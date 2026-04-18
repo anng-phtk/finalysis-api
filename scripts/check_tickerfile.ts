@@ -1,4 +1,4 @@
-import { findTickerMappingFile, getCIK } from "../packages/facts-svc/ticker-svc";
+import { findTickerMappingFile, getCIK } from "../packages/sec-client/ticker-svc.js";
 
 findTickerMappingFile();
 console.log("Ticker mapping file found and loaded successfully.");

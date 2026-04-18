@@ -1,9 +1,12 @@
+import { createWriteStream } from 'node:fs';
 import Constants from '../runtime-svc/constants.js';
 import * as fs from 'fs';
 import path from 'node:path';
 import chain from 'stream-chain';
 import parser from 'stream-json';
 import streamObject from 'stream-json/streamers/stream-object.js';
+import { Readable } from 'node:stream';
+import { finished } from 'node:stream/promises';
 
 
 export const getCIK = async (ticker: string) => {
@@ -24,6 +27,7 @@ export const getCIK = async (ticker: string) => {
     return ;
 };
 
+
 export const findTickerMappingFile = async () => {
     try {
         if (!fs.existsSync(Constants.CACHE_DIR)) {
@@ -39,12 +43,16 @@ export const findTickerMappingFile = async () => {
                 }
 
                 // Read the entire body into a variable
-                let rawData = await secRequest.json();
+                //let rawData = await secRequest.json();
                 console.info(`Successfully fetched ticker map from SEC with status ${secRequest.status}`);
-                console.info(`Fetched ${Object.keys(rawData).length} ticker entries from SEC`);
+                
 
                 // Save to Disk
-                fs.writeFileSync(Constants.CACHE_FILE, JSON.stringify(rawData, null, 2));
+                //fs.writeFileSync(Constants.CACHE_FILE, JSON.stringify(rawData, null, 2));
+                
+                // 2. Pipe the raw network body directly to the file without loading into RAM
+                const fileStream = createWriteStream(Constants.CACHE_FILE);
+                await finished(fileStream, Readable.fromWeb(secRequest.body as any).pipe(fileStream))
             } catch (error: any) {
                 console.error('Error fetching ticker map from SEC:', error.message || String(error));
                 return null;

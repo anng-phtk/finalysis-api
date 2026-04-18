@@ -3,6 +3,7 @@ import { finished } from 'node:stream/promises';
 import Contants from '../runtime-svc/constants.js';
 import fs from 'node:fs';
 import path from 'node:path';
+import type { FetchOptions } from '../utils/types.js';
 
 
 
@@ -11,10 +12,7 @@ if (!fs.existsSync(Contants.CACHE_DIR)) {
     fs.mkdirSync(Contants.CACHE_DIR, { recursive: true });
 }
 
-export interface FetchOptions {
-    /** when true, ignore the cached JSON and always re-download */
-    force?: boolean;
-}
+
 
 export async function ensureCompanyFactsIndex(cik: string, opts: FetchOptions = {}): Promise<string> {
     let paddedCik = cik.padStart(10, '0');
