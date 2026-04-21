@@ -1,160 +1,150 @@
-import { ensureCompanyFacts, ensureCompanyFactsIndex } from "../sec-client/fact-svc.js";
-import { getCIK } from "../sec-client/ticker-svc.js";
-import { REPORTED_METRICS, type FetchOptions } from "../utils/types.js";
+import { REPORTED_METRICS } from "../utils/types.js";
 import { chain } from 'stream-chain';
 import { parser } from 'stream-json';
 import { pick } from 'stream-json/filters/Pick.js';
 import { streamValues } from 'stream-json/streamers/stream-values.js';
-import fs from 'node:fs';   
+import fs from 'node:fs';
 import streamObject from "stream-json/streamers/stream-object.js";
-import path from "node:path";
 
-
-export const buildAccessionMap = async (indexPath: string): Promise<Map<string, { form: string; reportDate: string, primaryDoc:string, isAnnual: boolean }>> => {
-    // Pure function: takes a file path, returns a Map. No network calls!
-    const pipeline = chain([fs.createReadStream(indexPath), parser(), pick({ filter: 'filings.recent' }), streamValues()]);
-    
-    const accessionMap: Map<string, { form: string; reportDate: string, primaryDoc:string, isAnnual: boolean }> = new Map();
-    
-    for await (const { value } of pipeline) {
-        for (let i: number = 0; i < value['form'].length; i++) {
-            const formType = value['form'][i];
-            const reportDate = value['reportDate'][i];
-            const accessionNumber = value['accessionNumber'][i]; 
-            const primaryDoc = value['primaryDocument'][i];
-            accessionMap.set(accessionNumber, { form: formType, reportDate, primaryDoc, isAnnual: formType === '10-K' });
-        }
-    }
-    return accessionMap;
+export interface AccessionMeta {
+    form: string;
+    reportDate: string;
+    primaryDoc: string;
+    isAnnual: boolean;
 }
 
-export const extractFacts = async(ticker: string, indexFile: string, factsFile: string, opts: FetchOptions) => {
-    // 1. Define the final output path immediately
-    const processedPath = path.join(process.cwd(), 'data', 'cache', `processed-${ticker}.json`);
+export interface ExtractedFact {
+    metric: string;
+    date: string;
+    value: number;
+    form: string;
+    reportDate: string;
+    rank: number;
+}
 
-    // 2. THE SHORT-CIRCUIT: If it exists and we aren't forcing a refresh, bail out instantly!
-    if (!opts?.force && fs.existsSync(processedPath)) {
-        console.log(`[Cache Hit]: Returning existing processed facts for ${ticker}`);
-        return processedPath;
-    }
+export type ExtractedFactsMap = Record<string, ExtractedFact>;
 
-    // 3. Otherwise, proceed with the heavy lifting...
-    const accessionMap: Map<string, { form: string; reportDate: string, primaryDoc:string, isAnnual: boolean }> = await buildAccessionMap(indexFile);
-    
-    type ReportedMetricKey = keyof typeof REPORTED_METRICS;
-    
-    //REPORTED_METRICS
-    const tagToMetricMap: Map<string, {metric:string, rank:number}> = new Map();
-    
-    for (const [metricKey, metricInfo] of Object.entries(REPORTED_METRICS)) {
-        metricInfo.tags.forEach((tag, index) => {
-            tagToMetricMap.set(tag, {metric: metricKey, rank: index});
+export const buildAccessionMapFromRecentFilings = (recentFilings: any): Map<string, AccessionMeta> => {
+    const accessionMap: Map<string, AccessionMeta> = new Map();
+
+    const forms = recentFilings?.form ?? [];
+    const reportDates = recentFilings?.reportDate ?? [];
+    const accessionNumbers = recentFilings?.accessionNumber ?? [];
+    const primaryDocuments = recentFilings?.primaryDocument ?? [];
+
+    for (let i = 0; i < forms.length; i++) {
+        const formType = String(forms[i] ?? '');
+        const reportDate = String(reportDates[i] ?? '');
+        const accessionNumber = String(accessionNumbers[i] ?? '');
+        const primaryDoc = String(primaryDocuments[i] ?? '');
+
+        if (!accessionNumber) continue;
+
+        accessionMap.set(accessionNumber, {
+            form: formType,
+            reportDate,
+            primaryDoc,
+            isAnnual: formType === '10-K'
         });
     }
-    // 1. Build a reverse map of tag to metric key for quick lookup when processing facts
-    console.log('1. Accession Map built successfully\n', '2. Tag to Metric Map built successfully');
-    
-    const results: Map<string, { metric: string, date: string; value: number; form: string; reportDate: string, rank:number }> = new Map();
-    //Array<Record<string, { metric: string, date: string; value: number; form: string; reportDate: string }>> = []; // Final storage: { REVENUE: { "2023-12-31": 1000 } }
-    console.log('Starting to process facts file:', factsFile);
-    const pipeline = chain([fs.createReadStream(factsFile), parser(), pick({ filter: 'facts.us-gaap' }), streamObject()]);
-    
-    for await (const { key: tag, value: content } of pipeline) {
-        const metricKey = tagToMetricMap.get(tag);
-    
-        if (!metricKey) {
-            // Tag not in our mapping, skip
-            continue;
-        }
-        const metric = metricKey.metric;
-        const metricRank:number = metricKey.rank; 
-    
-        const targetUnit = REPORTED_METRICS[metric as ReportedMetricKey].opts.unit;
-        const unitData = content.units[targetUnit]; // Assuming we want USD values, adjust if needed
-        if (!unitData) {
-            // No USD data for this tag, skip
-            continue;
-        }
-    
-        // Extract the value and date for this fact
-        for (const fact of unitData) {
-            if (!accessionMap.has(fact.accn)) {
-                // Accession number not found in our map, skip
-                continue;
-            }
-    
-    
-            if (fact.form !== '10-K' && fact.form !== '10-Q') {
-                // We only care about 10-K and 10-Q reports, skip others
-                continue;
-            }
-    
-            // 2. The Coordinate Intersection:
-            // We only care about facts whose 'end' matches the filing's 'reportDate'
-    
-            if (fact.end !== accessionMap.get(fact.accn)?.reportDate) continue;
-    
-            // check for instant metrics
-            const metricType = REPORTED_METRICS[metric as ReportedMetricKey].opts.kind;
-            
-    
-            if (metricType !== "INSTANT"  && fact.start) {
-                const days = (Date.parse(fact.end) - Date.parse(fact.start)) / 86400000;
-    
-                // 10-Q: Must be a quarter (~90 days)
-                if (fact.form === "10-Q" && (days < 70 || days > 110)) continue;
-    
-                // 10-K: Must be a year (~365 days)
-                if (fact.form === "10-K" && days < 300) continue;
-            }
-    
-    
-            // 2. The Flow/Duration Sieve
-            if (metricType === "FLOW" && fact.start) {
-                const days = (Date.parse(fact.end) - Date.parse(fact.start)) / 86400000;
-    
-                // Quarter check (~3 months)
-                if (fact.form.startsWith("10-Q") && (days < 70 || days > 110)) continue;
-                
-                // Annual check (~1 year)
-                if (fact.form.startsWith("10-K") && days < 300) continue;
-            }
-    
-    
-            // finally, we have a metric we care about with a valid accession number, extract the value and date
-            const date = fact.end;
-            const value = fact.val;
-            const accessionNumber = fact.accn;
-            const form = fact.form; 
-            const reportDate = accessionMap.get(accessionNumber)?.reportDate ||'';
-    
-    
-            const rec = {
-                metric: metric,
-                date: String(date),
-                value: value,
-                form: form,
-                reportDate: reportDate,
-                rank: metricRank
-            }
-    
-            const groupKey = `${reportDate}:${form}:${metric}` 
-    
-            if (!results.has(groupKey) ) {
-                results.set(groupKey, rec);
-            }
-            else {
-                if (!results.get(groupKey) || results.get(groupKey)!.rank >= metricRank) {
-                    results.set(groupKey, rec);
-                } 
-            }
-        }
-    
+
+    return accessionMap;
+};
+
+export const buildAccessionMap = async (indexPath: string): Promise<Map<string, AccessionMeta>> => {
+    const pipeline = chain([
+        fs.createReadStream(indexPath),
+        parser(),
+        pick({ filter: 'filings.recent' }),
+        streamValues()
+    ]);
+
+    for await (const { value } of pipeline) {
+        return buildAccessionMapFromRecentFilings(value);
     }
 
-    // FIXED: Convert ES6 Map to standard object so JSON.stringify works
-    const jsonOutput = Object.fromEntries(results);
-    fs.writeFileSync(processedPath, JSON.stringify(jsonOutput, null, 2));
+    return new Map();
+};
 
-    return processedPath;
-}
+export const buildTagToMetricMap = (): Map<string, { metric: string; rank: number }> => {
+    const tagToMetricMap: Map<string, { metric: string; rank: number }> = new Map();
+
+    for (const [metricKey, metricInfo] of Object.entries(REPORTED_METRICS)) {
+        metricInfo.tags.forEach((tag, index) => {
+            tagToMetricMap.set(tag, { metric: metricKey, rank: index });
+        });
+    }
+
+    return tagToMetricMap;
+};
+
+export const selectFactsFromFactsFile = async (
+    factsFile: string,
+    accessionMap: Map<string, AccessionMeta>
+): Promise<ExtractedFactsMap> => {
+    type ReportedMetricKey = keyof typeof REPORTED_METRICS;
+
+    const tagToMetricMap = buildTagToMetricMap();
+    const results: Map<string, ExtractedFact> = new Map();
+    const pipeline = chain([
+        fs.createReadStream(factsFile),
+        parser(),
+        pick({ filter: 'facts.us-gaap' }),
+        streamObject()
+    ]);
+
+    for await (const { key: tag, value: content } of pipeline) {
+        const metricKey = tagToMetricMap.get(String(tag));
+        if (!metricKey) continue;
+
+        const metric = metricKey.metric;
+        const metricRank = metricKey.rank;
+        const targetUnit = REPORTED_METRICS[metric as ReportedMetricKey].opts.unit;
+        const unitData = content.units?.[targetUnit];
+        if (!unitData) continue;
+
+        for (const fact of unitData) {
+            const accessionMeta = accessionMap.get(fact.accn);
+            if (!accessionMeta) continue;
+            if (fact.form !== '10-K' && fact.form !== '10-Q') continue;
+            if (fact.end !== accessionMeta.reportDate) continue;
+
+            const metricType = REPORTED_METRICS[metric as ReportedMetricKey].opts.kind;
+
+            if (metricType !== 'INSTANT' && fact.start) {
+                const days = (Date.parse(fact.end) - Date.parse(fact.start)) / 86400000;
+                if (fact.form === '10-Q' && (days < 70 || days > 110)) continue;
+                if (fact.form === '10-K' && days < 300) continue;
+            }
+
+            if (metricType === 'FLOW' && fact.start) {
+                const days = (Date.parse(fact.end) - Date.parse(fact.start)) / 86400000;
+                if (fact.form.startsWith('10-Q') && (days < 70 || days > 110)) continue;
+                if (fact.form.startsWith('10-K') && days < 300) continue;
+            }
+
+            const reportDate = accessionMeta.reportDate || '';
+            const rec: ExtractedFact = {
+                metric,
+                date: String(fact.end),
+                value: fact.val,
+                form: fact.form,
+                reportDate,
+                rank: metricRank,
+            };
+
+            const groupKey = `${reportDate}:${fact.form}:${metric}`;
+            const existing = results.get(groupKey);
+            if (!existing || existing.rank >= metricRank) {
+                results.set(groupKey, rec);
+            }
+        }
+    }
+
+    return Object.fromEntries(results);
+};
+
+export const extractFacts = async (indexFile: string, factsFile: string): Promise<ExtractedFactsMap> => {
+    const accessionMap = await buildAccessionMap(indexFile);
+    return selectFactsFromFactsFile(factsFile, accessionMap);
+};

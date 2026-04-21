@@ -18,7 +18,6 @@ export const FILINGS_DIR = path.join(process.cwd(), 'data', 'filings');
 
 export default class Constants {
 
-    static readonly LOCAL_DMP_PATH = 'G:\\My Drive\\DMP';
     static readonly headers = {
         'User-Agent': process.env.USER_AGENT || 'FinalysisApp contact@example.com',
         'Accept-Encoding': 'gzip, deflate',
