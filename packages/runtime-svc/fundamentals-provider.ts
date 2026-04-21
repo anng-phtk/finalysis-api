@@ -5,15 +5,28 @@ import { extractFacts } from "../facts-svc/fact-extractor.js";
 import { REPORTED_METRICS, CALCULATED_METRICS, type ReportedMetricKey, type CalculatedMetricKey } from "../utils/types.js";
 import fs from 'node:fs';
 import { type ColumnarGrid } from "../utils/types.js";
+import { getAllFilings } from "./filings-provider.js";
 
 export interface FundamentalsOptions {
     ticker: string;
     periods: 3 | 5 | 'all';
     formType: '10-K' | '10-Q' | 'both';
     refresh: boolean | false;
+    autoSave?: boolean | false;
 }
 
+import { exportGridToExcel } from "../storage/excel-svc.js";
+
+const columnarDataCache: Map<string, ColumnarGrid> = new Map();
+
 export const fundamentalsProvider = async (opts: FundamentalsOptions) => {
+    // 1. check cache and return if found
+    // 2. also check if forced to update
+    if (!opts.refresh) {
+        const cached = columnarDataCache.get(`${opts.ticker}:${opts.periods}:${opts.formType}`);
+        if (cached) return cached;
+    }
+
     const cik = await getCIK(opts.ticker);
     if (!cik || !cik.length) throw new Error(`No SEC identifier (CIK) found for ${opts.ticker}`);
 
@@ -25,17 +38,48 @@ export const fundamentalsProvider = async (opts: FundamentalsOptions) => {
 
     // 2. Data Engineering (Deduplication / Stream)
     const processedFile = await extractFacts(opts.ticker, indexFile, factFile, options);
+    const filingsMap: Map<string, string> = await getAllFilings(indexFile, opts);
+    if (!filingsMap || filingsMap.size === 0) throw new Error(`No filings found for ${opts.ticker}`);
 
     // 3. Financial Engineering (Pivoting / Math)
-    const columnarData = await FinancialGridProvider(processedFile, opts.formType);
+    const columnarData = await FinancialGridProvider(processedFile, filingsMap, opts.formType);
 
-    // 4. Send it back to the Controller!
+    // 4. Update cache
+    columnarDataCache.set(`${opts.ticker}:${opts.periods}:${opts.formType}`, columnarData);
+
+    if (opts.autoSave) {
+        // 5. Export to Excel (Server-side to DMP folder)
+        await saveToDrive(opts.ticker, opts.periods.toString(), opts.formType);
+    }
+
+    // 6. Send it back to the Controller!
     return columnarData;
+}
+
+/**
+ * Reusable function to save cached financial data to the local G:\ drive (DMP folder)
+ */
+export async function saveToDrive(ticker: string, periods: string, formType: string) {
+    const cacheKey = `${ticker}:${periods}:${formType}`;
+    const data = columnarDataCache.get(cacheKey);
+
+    if (!data) {
+        console.warn(`[SaveToDrive]: No cached data found for ${cacheKey}. Run fundamentalsProvider first.`);
+        return null;
+    }
+
+    try {
+        const path = await exportGridToExcel(ticker, data);
+        return path;
+    } catch (err) {
+        console.error(`[SaveToDrive]: Failed to save ${ticker} for ${periods} periods`, err);
+        throw err;
+    }
 }
 
 
 
-export async function FinancialGridProvider(processedFile: string, formType: string): Promise<ColumnarGrid> {
+export async function FinancialGridProvider(processedFile: string, filings: Map<string, string>, formType: string): Promise<ColumnarGrid> {
 
     // STEP 1: Load the Pristine Data
     const rawData = JSON.parse(fs.readFileSync(processedFile, 'utf-8'));
@@ -44,7 +88,6 @@ export async function FinancialGridProvider(processedFile: string, formType: str
     const uniqueDates = new Set<string>();
     const fastLookup: Record<string, number> = {};
     const formLookup: Map<string, string> = new Map<string, string>();
-
 
     for (const fact of Object.values<any>(rawData)) {
 
@@ -72,7 +115,17 @@ export async function FinancialGridProvider(processedFile: string, formType: str
             const lookupKey = `${date}`;
             return formLookup.get(lookupKey) ?? null;
         });
+
+        // NEW: Add the URL right into the column!
+        grid['FILING_URL'] = reportedPeriods.map(date => {
+            const form = formLookup.get(date);
+            const groupKey = `${date}:${form}`;
+            return filings.get(groupKey) ?? null;
+        });
     }
+
+
+
     for (const key of metricKeys) {
         grid[key] = reportedPeriods.map(date => {
             const lookupKey = `${key}:${date}`;
@@ -270,7 +323,7 @@ export async function FinancialGridProvider(processedFile: string, formType: str
 }
 
 await fundamentalsProvider({
-    ticker: 'AAPL',
+    ticker: 'NVDA',
     formType: '10-K',
     periods: 'all',
     refresh: true

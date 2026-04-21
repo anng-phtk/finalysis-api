@@ -1,27 +1,28 @@
 import { ensureCompanyFacts, ensureCompanyFactsIndex } from "../sec-client/fact-svc.js";
 import { getCIK } from "../sec-client/ticker-svc.js";
 import { REPORTED_METRICS, type FetchOptions } from "../utils/types.js";
-
 import { chain } from 'stream-chain';
 import { parser } from 'stream-json';
 import { pick } from 'stream-json/filters/Pick.js';
 import { streamValues } from 'stream-json/streamers/stream-values.js';
-import fs, { access, read } from 'node:fs';   
+import fs from 'node:fs';   
 import streamObject from "stream-json/streamers/stream-object.js";
 import path from "node:path";
 
-export const buildAccessionMap = async (indexPath: string) => {
+
+export const buildAccessionMap = async (indexPath: string): Promise<Map<string, { form: string; reportDate: string, primaryDoc:string, isAnnual: boolean }>> => {
     // Pure function: takes a file path, returns a Map. No network calls!
     const pipeline = chain([fs.createReadStream(indexPath), parser(), pick({ filter: 'filings.recent' }), streamValues()]);
     
-    const accessionMap: Map<string, { form: string; reportDate: string, isAnnual: boolean }> = new Map();
+    const accessionMap: Map<string, { form: string; reportDate: string, primaryDoc:string, isAnnual: boolean }> = new Map();
     
     for await (const { value } of pipeline) {
         for (let i: number = 0; i < value['form'].length; i++) {
             const formType = value['form'][i];
             const reportDate = value['reportDate'][i];
             const accessionNumber = value['accessionNumber'][i]; 
-            accessionMap.set(accessionNumber, { form: formType, reportDate, isAnnual: formType === '10-K' });
+            const primaryDoc = value['primaryDocument'][i];
+            accessionMap.set(accessionNumber, { form: formType, reportDate, primaryDoc, isAnnual: formType === '10-K' });
         }
     }
     return accessionMap;
@@ -36,9 +37,9 @@ export const extractFacts = async(ticker: string, indexFile: string, factsFile: 
         console.log(`[Cache Hit]: Returning existing processed facts for ${ticker}`);
         return processedPath;
     }
-    // 3. Otherwise, proceed with the heavy lifting...
 
-    const accessionMap: Map<string, { form: string; reportDate: string, isAnnual: boolean }> = await buildAccessionMap(indexFile);
+    // 3. Otherwise, proceed with the heavy lifting...
+    const accessionMap: Map<string, { form: string; reportDate: string, primaryDoc:string, isAnnual: boolean }> = await buildAccessionMap(indexFile);
     
     type ReportedMetricKey = keyof typeof REPORTED_METRICS;
     
@@ -150,6 +151,7 @@ export const extractFacts = async(ticker: string, indexFile: string, factsFile: 
         }
     
     }
+
     // FIXED: Convert ES6 Map to standard object so JSON.stringify works
     const jsonOutput = Object.fromEntries(results);
     fs.writeFileSync(processedPath, JSON.stringify(jsonOutput, null, 2));

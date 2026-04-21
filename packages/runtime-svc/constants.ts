@@ -25,6 +25,7 @@ export default class Constants {
     static readonly BASE_URL: string = 'https://data.sec.gov';
 
     static readonly TICKER_URL: string = 'https://www.sec.gov/files/company_tickers.json';
+    static readonly SEC_ARCHIVE_URL: string = 'https://www.sec.gov/Archives/edgar/data';
 
     static readonly BASE_DIR: string = path.join(path.resolve(process.cwd()), 'data');
     static readonly CACHE_DIR: string = path.join(Constants.BASE_DIR, 'cache');

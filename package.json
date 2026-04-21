@@ -19,17 +19,26 @@
     "build": "npx tsc"
   },
   "devDependencies": {
+    "@types/cheerio": "^0.22.35",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^25.6.0",
     "@types/stream-json": "^1.7.8",
+    "@types/turndown": "^5.0.6",
     "nodemon": "^3.1.14",
     "typescript": "^6.0.2"
   },
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "cheerio": "^1.2.0",
     "cors": "^2.8.6",
     "express": "^5.2.1",
+    "googleapis": "^171.4.0",
+    "jsdom": "^29.0.2",
+    "node-fetch": "^3.3.2",
     "stream-json": "^2.1.0",
+    "turndown": "^7.2.4",
+    "xlsx": "^0.18.5",
     "yahoo-finance2": "^3.14.0"
   }
 }
