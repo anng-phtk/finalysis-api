@@ -1,12 +1,8 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
+import Constants from '../runtime-svc/constants.js';
 
-/**
- * Since you are running locally with Google Drive for Desktop, 
- * we can simply write to the G:\ drive directly.
- * No service account or API key required!
- */
-export const LOCAL_DMP_PATH = 'G:\\My Drive\\DMP'; 
+export const LOCAL_DMP_PATH = Constants.LOCAL_DMP_PATH;
 
 export async function uploadToDrive(fileName: string, markdownContent: string) {
     const targetPath = path.join(LOCAL_DMP_PATH, fileName);
@@ -17,7 +13,7 @@ export async function uploadToDrive(fileName: string, markdownContent: string) {
 
         // Write the markdown content directly to the G: drive
         await fs.writeFile(targetPath, markdownContent, 'utf-8');
-        
+
         console.log(`Success! File saved locally to: ${targetPath}`);
         // Return the local path as the "ID" for tracking
         return targetPath;
