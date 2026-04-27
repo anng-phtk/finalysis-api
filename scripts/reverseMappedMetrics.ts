@@ -1,4 +1,4 @@
-import { REPORTED_METRICS } from "../packages/utils/types.js";
+import { REPORTED_METRICS } from "../packages/facts-svc/metrics.types.js";
 import { chain } from 'stream-chain';
 import { parser } from 'stream-json';
 import { pick } from 'stream-json/filters/Pick.js';
@@ -19,17 +19,17 @@ const accessionMap: Map<string, { form: string; reportDate: string, isAnnual: bo
 type ReportedMetricKey = keyof typeof REPORTED_METRICS;
 
 //REPORTED_METRICS
-const tagToMetricMap: Map<string, {metric:string, rank:number}> = new Map();
+const tagToMetricMap: Map<string, { metric: string, rank: number }> = new Map();
 
 for (const [metricKey, metricInfo] of Object.entries(REPORTED_METRICS)) {
     metricInfo.tags.forEach((tag, index) => {
-        tagToMetricMap.set(tag, {metric: metricKey, rank: index});
+        tagToMetricMap.set(tag, { metric: metricKey, rank: index });
     });
 }
 // 1. Build a reverse map of tag to metric key for quick lookup when processing facts
 console.log('1. Accession Map built successfully\n', '2. Tag to Metric Map built successfully');
 
-const results: Map<string, { metric: string, date: string; value: number; form: string; reportDate: string, rank:number }> = new Map();
+const results: Map<string, { metric: string, date: string; value: number; form: string; reportDate: string, rank: number }> = new Map();
 //Array<Record<string, { metric: string, date: string; value: number; form: string; reportDate: string }>> = []; // Final storage: { REVENUE: { "2023-12-31": 1000 } }
 console.log('Starting to process facts file:', factsFilePath);
 const pipeline = chain([fs.createReadStream(factsFilePath), parser(), pick({ filter: 'facts.us-gaap' }), streamObject()]);
@@ -42,7 +42,7 @@ for await (const { key: tag, value: content } of pipeline) {
         continue;
     }
     const metric = metricKey.metric;
-    const metricRank:number = metricKey.rank; 
+    const metricRank: number = metricKey.rank;
 
     const targetUnit = REPORTED_METRICS[metric as ReportedMetricKey].opts.unit;
     const unitData = content.units[targetUnit]; // Assuming we want USD values, adjust if needed
@@ -71,9 +71,9 @@ for await (const { key: tag, value: content } of pipeline) {
 
         // check for instant metrics
         const metricType = REPORTED_METRICS[metric as ReportedMetricKey].opts.kind;
-        
 
-        if (metricType !== "INSTANT"  && fact.start) {
+
+        if (metricType !== "INSTANT" && fact.start) {
             const days = (Date.parse(fact.end) - Date.parse(fact.start)) / 86400000;
 
             // 10-Q: Must be a quarter (~90 days)
@@ -90,7 +90,7 @@ for await (const { key: tag, value: content } of pipeline) {
 
             // Quarter check (~3 months)
             if (fact.form.startsWith("10-Q") && (days < 70 || days > 110)) continue;
-            
+
             // Annual check (~1 year)
             if (fact.form.startsWith("10-K") && days < 300) continue;
         }
@@ -100,8 +100,8 @@ for await (const { key: tag, value: content } of pipeline) {
         const date = fact.end;
         const value = fact.val;
         const accessionNumber = fact.accn;
-        const form = fact.form; 
-        const reportDate = accessionMap.get(accessionNumber)?.reportDate ||'';
+        const form = fact.form;
+        const reportDate = accessionMap.get(accessionNumber)?.reportDate || '';
 
 
         const rec = {
@@ -113,15 +113,15 @@ for await (const { key: tag, value: content } of pipeline) {
             rank: metricRank
         }
 
-        const groupKey = `${reportDate}:${form}:${metric}` 
+        const groupKey = `${reportDate}:${form}:${metric}`
 
-        if (!results.has(groupKey) ) {
+        if (!results.has(groupKey)) {
             results.set(groupKey, rec);
         }
         else {
             if (!results.get(groupKey) || results.get(groupKey)!.rank >= metricRank) {
                 results.set(groupKey, rec);
-            } 
+            }
         }
     }
 

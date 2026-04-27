@@ -3,7 +3,7 @@ import { finished } from 'node:stream/promises';
 import Contants from '../runtime-svc/constants.js';
 import fs from 'node:fs';
 import path from 'node:path';
-import type { FetchOptions } from '../utils/types.js';
+import type { FetchOptions } from '../facts-svc/metrics.types.js';
 
 
 
@@ -26,7 +26,7 @@ export async function ensureCompanyFactsIndex(cik: string, opts: FetchOptions = 
     // 1. Check Cache
     if (!opts.force && fs.existsSync(cachePath)) {
         console.log(`[FactsService] Loading ${paddedCik} from local cache...`);
-        return cachePath; 
+        return cachePath;
     }
 
     // 2. Stream from SEC to Disk
@@ -34,7 +34,7 @@ export async function ensureCompanyFactsIndex(cik: string, opts: FetchOptions = 
     if (!response.ok) throw new Error(`SEC Fetch Failed: ${response.status}`);
 
     const fileStream = fs.createWriteStream(cachePath);
-    
+
     // This connects the network to the disk without loading the JSON into RAM
     await finished(Readable.fromWeb(response.body as any).pipe(fileStream));
 
@@ -46,7 +46,7 @@ export async function ensureCompanyFacts(cik: string, opts: FetchOptions = {}): 
 
     // 1. If it exists and we aren't forcing, just return the path
     if (!opts.force && fs.existsSync(cachePath)) {
-        return cachePath; 
+        return cachePath;
     }
 
     // 2. Stream from SEC to Disk
@@ -56,7 +56,7 @@ export async function ensureCompanyFacts(cik: string, opts: FetchOptions = {}): 
     if (!response.ok) throw new Error(`SEC Fetch Failed: ${response.status}`);
 
     const fileStream = fs.createWriteStream(cachePath);
-    
+
     // This connects the network to the disk without loading the JSON into RAM
     await finished(Readable.fromWeb(response.body as any).pipe(fileStream));
 

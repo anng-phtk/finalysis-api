@@ -1,24 +1,28 @@
 import { getCIK } from "../sec-client/ticker-svc.js";
 import { ensureCompanyFacts, ensureCompanyFactsIndex } from "../sec-client/fact-svc.js";
-import { extractFacts, type ExtractedFactsMap } from "../facts-svc/fact-extractor.js";
-import { getAllFilings } from "./filings-provider.js";
-import type { ColumnarGrid, FetchOptions } from "../utils/types.js";
+import { extractFacts, type ExtractedFactsMap, type SelectionMode } from "../facts-svc/fact-extractor.js";
+import { filingsProvider } from "./filings-provider.js";
+import { type FilingHistoryResponse, type FilingHistoryRow } from "../filings/filings.types.js";
+import type { ColumnarGrid, FetchOptions } from "../facts-svc/metrics.types.js";
 import {
     REPORTED_METRICS,
     CALCULATED_METRICS,
     type ReportedMetricKey,
     type CalculatedMetricKey,
-} from "../utils/types.js";
+} from "../facts-svc/metrics.types.js";
 
 export interface FundamentalsOptions {
     ticker: string;
     refresh?: boolean;
+    mode?: SelectionMode;
 }
 
 const columnarDataCache: Map<string, ColumnarGrid> = new Map();
 
 export const fundamentalsProvider = async (opts: FundamentalsOptions): Promise<ColumnarGrid> => {
-    const cacheKey = opts.ticker.toUpperCase();
+
+    const selectedMode = opts.mode ?? 'VALUATION';
+    const cacheKey = `${opts.ticker.toUpperCase()}:${selectedMode}`;
     if (!opts.refresh) {
         const cached = columnarDataCache.get(cacheKey);
         if (cached) return cached;
@@ -33,26 +37,33 @@ export const fundamentalsProvider = async (opts: FundamentalsOptions): Promise<C
     const indexFile = await ensureCompanyFactsIndex(cik, fetchOptions);
     const factFile = await ensureCompanyFacts(cik, fetchOptions);
 
-    const processedFacts = await extractFacts(indexFile, factFile);
-    const filingsMap = await getAllFilings(indexFile, {
+    const { facts } = await extractFacts(indexFile, factFile, selectedMode);
+    const filingsMap = await filingsProvider({
         ticker: opts.ticker,
-        cik,
         refresh: opts.refresh || false,
     });
 
-    if (!filingsMap || filingsMap.size === 0) {
+    if (!filingsMap || filingsMap.rows.length === 0) {
         throw new Error(`No filings found for ${opts.ticker}`);
     }
 
-    const columnarData = buildFundamentalsGrid(processedFacts, filingsMap);
+    const columnarData = buildFundamentalsGrid(facts, filingsMap, selectedMode);
     columnarDataCache.set(cacheKey, columnarData);
     return columnarData;
 };
 
 export function buildFundamentalsGrid(
     processedFacts: ExtractedFactsMap,
-    filings: Map<string, string>
+    filings: FilingHistoryResponse,
+    mode: SelectionMode = 'VALUATION'
 ): ColumnarGrid {
+
+    const isRatioOrGrowth = (calcKey: string): boolean => {
+        const config = CALCULATED_METRICS[calcKey as CalculatedMetricKey];
+        if (config.unit === '%' || config.unit === 'pure') return true;
+        if (calcKey.startsWith('YOY_') || calcKey.includes('CAGR_') || calcKey.endsWith('_MARGIN')) return true;
+        return false;
+    };
     const uniqueDates = new Set<string>();
     const fastLookup: Record<string, number> = {};
     const formLookup: Map<string, string> = new Map();
@@ -65,13 +76,19 @@ export function buildFundamentalsGrid(
 
     const reportedPeriods = Array.from(uniqueDates).sort((a, b) => Date.parse(b) - Date.parse(a));
 
+    const filingsLookup: Map<string, string> = new Map();
+    filings.rows.forEach((row: FilingHistoryRow) => {
+        const key = `${row.reportDate}:${row.form}`;
+        filingsLookup.set(key, row.filingUrl);
+    });
+
     const grid: ColumnarGrid = {
         reportedPeriods,
         FORM_TYPE: reportedPeriods.map(date => formLookup.get(date) ?? null),
         FILING_URL: reportedPeriods.map(date => {
             const form = formLookup.get(date);
             const groupKey = `${date}:${form}`;
-            return filings.get(groupKey) ?? null;
+            return filingsLookup.get(groupKey) ?? null;
         }),
     };
 
@@ -90,6 +107,11 @@ export function buildFundamentalsGrid(
         grid[calcKey] = reportedPeriods.map((_, index) => {
             const deps = config.deps.map(dep => grid[dep]?.[index] as number | null);
             const prevDeps = config.deps.map(dep => grid[dep]?.[index + 1] as number | null);
+
+            // If current column is mixed 10-Q and 10-K, nullify ratios and period over period calculations for 10Qs
+            if (mode === 'VALUATION' && grid.FORM_TYPE[index] === '10-Q' && isRatioOrGrowth(calcKey)) {
+                return null;
+            }
 
             switch (calcKey) {
                 case "FREE_CASH_FLOW": {

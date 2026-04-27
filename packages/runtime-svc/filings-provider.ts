@@ -1,38 +1,56 @@
 import { buildAccessionMap, type AccessionMeta } from "../facts-svc/fact-extractor.js";
+import { ensureCompanyFactsIndex } from "../sec-client/fact-svc.js";
+import { getCIK } from "../sec-client/ticker-svc.js";
 import Constants from "./constants.js";
+import { type FilingHistoryResponse, type FilingUrlProviderOptions, type FilingHistoryRow } from "../filings/filings.types.js";
 
-export interface FilingUrlProviderOptions {
-    ticker: string;
-    cik: string;
-    refresh?: boolean;
-}
 
-export const filingsCache: Map<string, Map<string, string>> = new Map();
 
-export const getAllFilings = async (
-    indexFile: string,
+export const filingsCache: Map<string, FilingHistoryResponse> = new Map();
+
+export const filingsProvider = async (
     opt: FilingUrlProviderOptions
-): Promise<Map<string, string>> => {
+): Promise<FilingHistoryResponse> => {
+    const cacheKey = opt.ticker.toUpperCase();
+
     if (!opt.refresh) {
-        const cached = filingsCache.get(opt.ticker);
+        const cached = filingsCache.get(cacheKey);
         if (cached) return cached;
     }
 
-    const unpaddedCIK = opt.cik.replace(/^0+(?!$)/, "");
-    const accessionMap: Map<string, AccessionMeta> = await buildAccessionMap(indexFile);
-    const primaryDocMap: Map<string, string> = new Map();
+    const cik = await getCIK(opt.ticker);
+    if (!cik) throw new Error(`Could not find CIK for ticker ${opt.ticker}`);
 
-    accessionMap.forEach((value, key) => {
-        if (value.form.startsWith('10-Q') || value.form.startsWith('10-K') || value.form.startsWith('8-K')) {
-            const groupKey = `${value.reportDate}:${value.form}`;
-            const unformattedAccession = key.replaceAll(/\-/g, '');
-            primaryDocMap.set(
-                groupKey,
-                `${Constants.SEC_ARCHIVE_URL}/${unpaddedCIK}/${unformattedAccession}/${value.primaryDoc}`
-            );
+    const indexFile = await ensureCompanyFactsIndex(cik);
+    const unpaddedCIK = cik.replace(/^0+(?!$)/, "");
+    const accessionMap = await buildAccessionMap(indexFile);
+
+    const rows: FilingHistoryRow[] = [];
+
+    accessionMap.forEach((value, accessionNumber) => {
+        if (
+            value.form.startsWith("10-Q") ||
+            value.form.startsWith("10-K") ||
+            value.form.startsWith("8-K")
+        ) {
+            const unformattedAccession = accessionNumber.replaceAll("-", "");
+            rows.push({
+                accessionNumber,
+                form: value.form,
+                reportDate: value.reportDate,
+                primaryDocument: value.primaryDoc,
+                filingUrl: `${Constants.SEC_ARCHIVE_URL}/${unpaddedCIK}/${unformattedAccession}/${value.primaryDoc}`,
+            });
         }
     });
 
-    filingsCache.set(opt.ticker, primaryDocMap);
-    return primaryDocMap;
+    rows.sort((a, b) => Date.parse(b.reportDate) - Date.parse(a.reportDate));
+
+    const response: FilingHistoryResponse = {
+        ticker: cacheKey,
+        rows,
+    };
+
+    filingsCache.set(cacheKey, response);
+    return response;
 };
