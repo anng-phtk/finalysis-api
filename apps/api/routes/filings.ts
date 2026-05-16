@@ -1,9 +1,7 @@
 import { Router, type Request, type Response } from "express";
-import { filingsProvider } from "../../../packages/runtime-svc/filings-provider.js";
-//import { parseFilingJs } from "../../../packages/filings/filings-parser.js";
-import { extractFilingItems, getHTMLFiling } from "../../../packages/filings/filing-svc.js";
-export const filingsRouter = Router();
+import { filingsProvider, parseFilingProvider } from "../../../packages/runtime-svc/filings-provider.js";
 
+export const filingsRouter = Router();
 
 filingsRouter.get("/parse", async (req: Request, res: Response) => {
     const url = String(req.query.url ?? "");
@@ -14,8 +12,7 @@ filingsRouter.get("/parse", async (req: Request, res: Response) => {
     }
 
     try {
-        const data = await getHTMLFiling(url);
-        const extractedData = extractFilingItems(data);
+        const extractedData = await parseFilingProvider(url);
         res.json(extractedData);
     } catch (error) {
         console.error(error);

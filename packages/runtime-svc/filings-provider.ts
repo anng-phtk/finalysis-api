@@ -3,6 +3,7 @@ import { ensureCompanyFactsIndex } from "../sec-client/fact-svc.js";
 import { getCIK } from "../sec-client/ticker-svc.js";
 import Constants from "./constants.js";
 import { type FilingHistoryResponse, type FilingUrlProviderOptions, type FilingHistoryRow } from "../filings/filings.types.js";
+import { getHTMLFiling, extractFilingItems } from "../filings/filing-svc.js";
 
 
 
@@ -53,4 +54,10 @@ export const filingsProvider = async (
 
     filingsCache.set(cacheKey, response);
     return response;
+};
+
+export const parseFilingProvider = async (url: string) => {
+    const data = await getHTMLFiling(url);
+    const extractedData = extractFilingItems(data);
+    return extractedData;
 };
