@@ -2,9 +2,12 @@ import { createWriteStream } from 'node:fs';
 import Constants from '../runtime-svc/constants.js';
 import * as fs from 'fs';
 import path from 'node:path';
-import chain from 'stream-chain';
+import Chain from 'stream-chain';
 import parser from 'stream-json';
-import streamObject from 'stream-json/streamers/stream-object.js';
+//import streamObject from 'stream-json/streamers/stream-object.js';
+//import StreamObject from 'stream-json/streamers/StreamObject.js';
+import StreamObject from 'stream-json/streamers/StreamObject.js';
+
 import { Readable } from 'node:stream';
 import { finished } from 'node:stream/promises';
 
@@ -15,7 +18,10 @@ export const getCIK = async (ticker: string) => {
     if (!mappingFile) return null;
 
     const target = ticker.toUpperCase();
-    const pipeline = chain([fs.createReadStream(mappingFile), parser(), streamObject()]);
+    const pipeline = new Chain([
+        fs.createReadStream(mappingFile), parser(), 
+        new StreamObject()
+    ]);
 
     for await (const data of pipeline) {
         if (data.value.ticker === target) {

@@ -2,7 +2,7 @@ import { REPORTED_METRICS } from "../packages/facts-svc/metrics.types.js";
 import { chain } from 'stream-chain';
 import { parser } from 'stream-json';
 import { pick } from 'stream-json/filters/Pick.js';
-import { streamObject } from 'stream-json/streamers/stream-object.js';
+import StreamObject from 'stream-json/streamers/StreamObject.js';
 import fs from 'node:fs';
 import { ensureCompanyFacts } from "../packages/sec-client/fact-svc.js";
 import { buildAccessionMap } from "../packages/facts-svc/fact-extractor.js";
@@ -32,7 +32,7 @@ console.log('1. Accession Map built successfully\n', '2. Tag to Metric Map built
 const results: Map<string, { metric: string, date: string; value: number; form: string; reportDate: string, rank: number }> = new Map();
 //Array<Record<string, { metric: string, date: string; value: number; form: string; reportDate: string }>> = []; // Final storage: { REVENUE: { "2023-12-31": 1000 } }
 console.log('Starting to process facts file:', factsFilePath);
-const pipeline = chain([fs.createReadStream(factsFilePath), parser(), pick({ filter: 'facts.us-gaap' }), streamObject()]);
+const pipeline = chain([fs.createReadStream(factsFilePath), parser(), pick({ filter: 'facts.us-gaap' }), new StreamObject()]);
 
 for await (const { key: tag, value: content } of pipeline) {
     const metricKey = tagToMetricMap.get(tag);

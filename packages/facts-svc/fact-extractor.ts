@@ -1,10 +1,18 @@
 import { REPORTED_METRICS } from "./metrics.types.js";
-import { chain } from 'stream-chain';
-import { parser } from 'stream-json';
-import { pick } from 'stream-json/filters/Pick.js';
-import { streamValues } from 'stream-json/streamers/stream-values.js';
+//import { chain } from 'stream-chain';
+import Chain from 'stream-chain';
+//import { parser } from 'stream-json';
+import parser from 'stream-json';
+
+import Pick from 'stream-json/filters/Pick.js';
+//import { streamValues } from 'stream-json/streamers/stream-values.js';
+import StreamValues from 'stream-json/streamers/StreamValues.js';
 import fs from 'node:fs';
-import streamObject from "stream-json/streamers/stream-object.js";
+import type FilterBase from "stream-json/filters/FilterBase.js";
+import StreamObject from "stream-json/streamers/StreamObject.js";
+//import streamObject from "stream-json/streamers/stream-object.js";
+
+//const pick = new Pick();
 
 export interface AccessionMeta {
     form: string;
@@ -20,6 +28,16 @@ export interface ExtractedFact {
     form: string;
     reportDate: string;
     rank: number;
+}
+
+// 1. Define a quick type for the tag content structure
+export interface SecTagContent {
+    units?: Record<string, Array<{
+        accn: string;
+        val: number;
+        start?: string;
+        end: string;
+    }>>;
 }
 
 export type ExtractedFactsMap = Record<string, ExtractedFact>;
@@ -87,11 +105,12 @@ export const selectValuationAccessions = (
 };
 
 export const buildAccessionMap = async (indexPath: string): Promise<Map<string, AccessionMeta>> => {
-    const pipeline = chain([
+    const pipeline = new Chain([
         fs.createReadStream(indexPath),
         parser(),
-        pick({ filter: 'filings.recent' }),
-        streamValues()
+        new Pick({ filter: 'filings.recent' }),
+        //pick({ filter: 'filings.recent' }),
+        new StreamValues()
     ]);
 
     for await (const { value } of pipeline) {
@@ -121,16 +140,16 @@ export const selectFactsFromFactsFile = async (
 
     const tagToMetricMap = buildTagToMetricMap();
     const results: Map<string, ExtractedFact> = new Map();
-    const pipeline = chain([
+    const pipeline = new Chain([
         fs.createReadStream(factsFile),
         parser(),
-        pick({ filter: 'facts' }),
-        streamObject()
+        new Pick({ filter: 'facts' }),
+        new StreamObject()
     ]);
 
     for await (const { key: namespace, value: tags } of pipeline) {
         if (namespace !== 'us-gaap' && namespace !== 'dei') continue;
-        for (const [tag, content] of Object.entries(tags as any)) {
+        for (const [tag, content] of Object.entries(tags as Record<string, SecTagContent>)) {
             const metricKey = tagToMetricMap.get(String(tag));
             if (!metricKey) continue;
 
