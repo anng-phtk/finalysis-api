@@ -99,8 +99,96 @@ export type ResearchSnapshot = {
     fetchedAt: string;
 };
 
+export type InsightsSnapshot = {
+    symbol: string;
+    recommendation?: {
+        rating?: "BUY" | "SELL" | "HOLD";
+        targetPrice?: number;
+        provider?: string;
+    };
+    companySnapshot?: {
+        sectorInfo?: string;
+        company?: {
+            innovativeness?: number;
+            hiring?: number;
+            sustainability?: number;
+            insiderSentiments?: number;
+            earningsReports?: number;
+            dividends?: number;
+        };
+        sector?: {
+            innovativeness?: number;
+            hiring?: number;
+            sustainability?: number;
+            insiderSentiments?: number;
+            earningsReports?: number;
+            dividends?: number;
+        };
+    };
+    instrumentInfo?: {
+        technicals?: {
+            provider?: string;
+            support?: number;
+            resistance?: number;
+            stopLoss?: number;
+        };
+        valuation?: {
+            provider?: string;
+            color?: number;
+            description?: string;
+            discount?: string;
+            relativeValue?: string;
+        };
+        outlooks?: {
+            shortTerm?: {
+                direction?: string;
+                score?: number;
+                scoreDescription?: string;
+            };
+            intermediateTerm?: {
+                direction?: string;
+                score?: number;
+                scoreDescription?: string;
+            };
+            longTerm?: {
+                direction?: string;
+                score?: number;
+                scoreDescription?: string;
+            };
+        };
+    };
+    reports: Array<{
+        id: string;
+        title?: string;
+        reportTitle: string;
+        provider: string;
+        reportDate: string;
+        reportType: string;
+        targetPrice?: number;
+        targetPriceStatus?: "Increased" | "Maintained" | "Decreased" | "-";
+        investmentRating?: "Bullish" | "Neutral" | "Bearish";
+        tickers?: string[];
+    }>;
+    sigDevs: Array<{
+        headline: string;
+        date: string;
+    }>;
+    secReports?: Array<{
+        id: string;
+        type: string;
+        title: string;
+        description: string;
+        filingDate: number;
+        snapshotUrl: string;
+        formType: string;
+    }>;
+    source: "yahoo";
+    fetchedAt: string;
+};
+
 export type PriceDashboardSnapshot = {
     quote: QuoteSnapshot;
     history?: PriceHistorySnapshot;
     research?: ResearchSnapshot;
+    insights?: InsightsSnapshot;
 };

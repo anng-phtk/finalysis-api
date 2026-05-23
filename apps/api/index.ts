@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { fundamentalsRouter } from "./routes/fundamentals.js";
 import { filingsRouter } from "./routes/filings.js";
 import { quoteRouter } from "./routes/quote.js";
+import { insightsRouter } from "./routes/insights.js";
 import cors from "cors";
 dotenv.config();
 
@@ -13,6 +14,7 @@ app.use(cors());
 app.use('/api/fundamentals', fundamentalsRouter);
 app.use('/api/filings', filingsRouter);
 app.use('/api/quote', quoteRouter);
+app.use('/api/insights', insightsRouter);
 app.get("/", async (req: Request, res: Response) => {
     res.send("Hello World!");
 });

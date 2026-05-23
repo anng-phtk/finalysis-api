@@ -4,6 +4,7 @@ import {
     fetchStockHistoryYahoo,
     fetchStockResearchYahoo,
 } from "../../../packages/quotes/quote-svc.js";
+import { insightsProvider } from "../../../packages/runtime-svc/insights-provider.js";
 
 export const quoteRouter = Router();
 
@@ -45,5 +46,24 @@ quoteRouter.get("/:ticker/research", async (req: Request, res: Response) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Failed to load research snapshot" });
+    }
+});
+
+quoteRouter.get("/:ticker/insights", async (req: Request, res: Response) => {
+    try {
+        const ticker = String(req.params.ticker ?? "").toUpperCase().trim();
+        const refresh = req.query.refresh === "true";
+        const reportsCountRaw = Number(req.query.reportsCount ?? 5);
+        const reportsCount = Number.isFinite(reportsCountRaw) ? reportsCountRaw : 5;
+
+        const data = await insightsProvider({
+            ticker,
+            refresh,
+            reportsCount,
+        });
+        res.json(data);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Failed to load insights snapshot" });
     }
 });

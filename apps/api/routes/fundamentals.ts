@@ -17,3 +17,6 @@ fundamentalsRouter.get("/:ticker", async (req: Request, res: Response) => {
     const data = await fundamentalsProvider({ ticker, mode, refresh });
     res.json(data);
 });
+
+
+//3e543984eb114d1a998488059be36e36.TWvUgaCS5dHpB77pJNcnCrRO

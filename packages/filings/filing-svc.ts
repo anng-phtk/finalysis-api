@@ -20,15 +20,15 @@ export async function getHTMLFiling(url: string) {
  */
 export function extractFilingItems(html: string) {
     const $ = cheerio.load(html);
-    const requestedItemIds = ["Item 1", "Item 1A", "Item 3", "Item 7", "Item 7A"];
+    const requestedItemIds = ["Item 1", "Item 1A", "Item 2", "Item 3", "Item 7", "Item 7A"];
 
     // 1. Identify ALL possible Item markers to use as boundaries
     // This prevents Item 7 from bleeding into Item 8, for example.
     const allMarkers: { id: string; index: number; el: any }[] = [];
     const allElements = $('body').find('*').toArray();
 
-    // Regex to match "ITEM 1", "ITEM 1A", "ITEM 10", etc.
-    const itemRegex = /^ITEM\s+([0-9]{1,2}[A-Z]?)[.\s:]/i;
+    // Regex to match "ITEM 1", "ITEM 1A", "ITEM 10", etc., but exclude lines containing "Table of Contents"
+    const itemRegex = /^ITEM\s+([0-9]{1,2}[A-Z]?)[.\s:](?!.*Table of Contents)/i;
 
     allElements.forEach((el, idx) => {
         const $el = $(el);

@@ -89,10 +89,13 @@ function cleanHtmlToText(html: string): string {
  */
 function extractSections(text: string): ParsedSections {
     const patterns: Record<string, RegExp> = {
-        "Item 1: Business": /(Item\s+1\.\s+Business[\s\S]*?)(?=Item\s+1A\.|Item\s+2\.)/gi,
+        "Item 1: Business (10-K)": /(Item\s+1\.\s+Business[\s\S]*?)(?=Item\s+1A\.|Item\s+2\.)/gi,
         "Item 1A: Risk Factors": /(Item\s+1A\.\s+Risk Factors[\s\S]*?)(?=Item\s+1B\.|Item\s+2\.)/gi,
-        "Item 3: Legal Proceedings": /(Item\s+3\.\s+Legal Proceedings[\s\S]*?)(?=Item\s+4\.)/gi,
-        "Item 7: MD&A": /(Item\s+7\.\s+Management[\s\S]*?)(?=Item\s+7[A-Z]\.|Item\s+8\.)/gi
+        "Item 2: MD&A (10-Q)": /(Item\s+2\.\s+Management[\s\S]*?)(?=Item\s+3\.|Part\s+II)/gi,
+        "Item 3: Legal Proceedings (10-K)": /(Item\s+3\.\s+Legal Proceedings[\s\S]*?)(?=Item\s+4\.)/gi,
+        "Item 3: Market Risk (10-Q)": /(Item\s+3\.\s+Quantitative[\s\S]*?)(?=Item\s+4\.|Part\s+II)/gi,
+        "Item 7: MD&A (10-K)": /(Item\s+7\.\s+Management[\s\S]*?)(?=Item\s+7[A-Z]\.|Item\s+8\.)/gi,
+        "Item 7A: Market Risk (10-K)": /(Item\s+7A\.\s+Quantitative[\s\S]*?)(?=Item\s+8\.)/gi
     };
 
     const extracted: ParsedSections = {};
@@ -115,9 +118,9 @@ function extractSections(text: string): ParsedSections {
             }
         }
 
-        extracted[name] = (bestMatch && maxLen > 300)
-            ? bestMatch
-            : "Section not found or could not be isolated.";
+        if (bestMatch && maxLen > 300) {
+            extracted[name] = bestMatch;
+        }
     }
 
     return extracted;

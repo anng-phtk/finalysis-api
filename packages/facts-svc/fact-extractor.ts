@@ -156,7 +156,7 @@ export const selectFactsFromFactsFile = async (
         const metric = metricKey.metric;
         const metricRank = metricKey.rank;
         const targetUnit = REPORTED_METRICS[metric as ReportedMetricKey].opts.unit;
-        const unitData = content.units?.[targetUnit];
+        const unitData = (content as any).units?.[targetUnit];
         if (!unitData) continue;
 
         for (const fact of unitData) {
