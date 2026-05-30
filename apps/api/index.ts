@@ -46,35 +46,82 @@ app.get("/api/filing-reader", async (req: Request, res: Response) => {
             "</head>",
             `
             <style>
+              /* Reset layout margins for eReaders */
+              html, body {
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                background: #fff !important;
+                color: #111 !important;
+                font-family: Georgia, serif !important;
+              }
+              
               body {
-                font-family: Georgia, "Times New Roman", serif;
-                font-size: 20px;
-                line-height: 1.65;
-                max-width: 760px;
-                margin: 0 auto;
-                padding: 2rem;
-                color: #111;
-                background: #fff;
+                padding: 1.2rem !important;
+                max-width: 800px !important;
+                margin: 0 auto !important;
               }
 
+              /* Clear page centering margins on main wrappers */
+              body > div, body > section, .main-content, main {
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+              }
+
+              /* Fix nested divs and paragraphs with wide margins */
+              div, p, section {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                width: auto !important;
+                max-width: 100% !important;
+              }
+
+              /* Global text formatting overrides */
+              p, span, div, font, td, th, li, a {
+                font-family: Georgia, serif !important;
+                font-size: 18px !important;
+                line-height: 1.65 !important;
+                color: #111 !important;
+                letter-spacing: normal !important;
+                word-spacing: normal !important;
+              }
+
+              /* Ensure headings stand out clearly */
+              h1, h2, h3, h4, h5, h6, strong, b {
+                font-family: Georgia, serif !important;
+                font-weight: bold !important;
+                color: #111 !important;
+              }
+
+              h1, h2, h3 {
+                margin-top: 1.8rem !important;
+                margin-bottom: 0.6rem !important;
+                line-height: 1.3 !important;
+              }
+              h1 { font-size: 24px !important; }
+              h2 { font-size: 22px !important; }
+              h3 { font-size: 20px !important; }
+
+              /* Table formatting to be clean and readable */
               table {
                 width: 100% !important;
-                border-collapse: collapse;
-                font-size: 16px;
-                margin: 1.5rem 0;
+                margin: 1.5rem 0 !important;
+                border-collapse: collapse !important;
               }
 
               td, th {
-                padding: 0.35rem;
-                vertical-align: top;
-                border: 1px solid #ddd;
+                padding: 0.4rem !important;
+                vertical-align: top !important;
+                border: 1px solid #ccc !important;
+                background-color: transparent !important;
               }
 
-              a {
-                color: #111;
-              }
-
-              .ixviewer, script, nav, #header, #footer {
+              /* Hide SEC interactive UI, scripts, and navigation */
+              .ixviewer, script, nav, iframe, #header, #footer, [class*="ix"] {
                 display: none !important;
               }
             </style>
