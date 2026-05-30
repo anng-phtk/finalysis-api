@@ -88,6 +88,7 @@ export const fetchStockQuoteYahoo = async (
             epsTTM: quote.epsTrailingTwelveMonths,
             epsForward: quote.epsForward,
             epsCurrentYear: quote.epsCurrentYear,
+            beta: quote.beta,
         },
         range: {
             week52Low: quote.fiftyTwoWeekLow,
