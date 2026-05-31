@@ -59,6 +59,14 @@ export const fetchStockQuoteYahoo = async (
 
     const quote = await yf.quote(symbol);
 
+    let beta: number | undefined = undefined;
+    try {
+        const research = await fetchStockResearchYahoo(symbol, refresh);
+        beta = research.beta;
+    } catch (err) {
+        console.warn(`Could not fetch beta for ${symbol}:`, err);
+    }
+
     const snapshot: QuoteSnapshot = {
         symbol: quote.symbol,
         shortName: quote.shortName,
@@ -88,7 +96,7 @@ export const fetchStockQuoteYahoo = async (
             epsTTM: quote.epsTrailingTwelveMonths,
             epsForward: quote.epsForward,
             epsCurrentYear: quote.epsCurrentYear,
-            beta: quote.beta,
+            beta: beta !== undefined ? beta : quote.beta,
         },
         range: {
             week52Low: quote.fiftyTwoWeekLow,
@@ -436,3 +444,5 @@ export const fetchStockInsightsYahoo = async (
 
     return snapshot;
 };
+
+console.log(await fetchStockResearchYahoo("AAPL", true));
