@@ -192,3 +192,12 @@ export type PriceDashboardSnapshot = {
     research?: ResearchSnapshot;
     insights?: InsightsSnapshot;
 };
+
+export type ProfileSnapshot = {
+    symbol: string;
+    description?: string;
+    earningsDate?: string;
+    source: "yahoo";
+    fetchedAt: string;
+};
+

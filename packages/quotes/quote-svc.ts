@@ -5,6 +5,7 @@ import type {
     PriceHistorySnapshot,
     ResearchSnapshot,
     InsightsSnapshot,
+    ProfileSnapshot,
 } from "./quote.types.js";
 
 type CachedQuote = {
@@ -27,15 +28,22 @@ type CachedInsights = {
     fetchedAtMs: number;
 };
 
+type CachedProfile = {
+    data: ProfileSnapshot;
+    fetchedAtMs: number;
+};
+
 const quoteCache: Map<string, CachedQuote> = new Map();
 const historyCache: Map<string, CachedHistory> = new Map();
 const researchCache: Map<string, CachedResearch> = new Map();
 const insightsCache: Map<string, CachedInsights> = new Map();
+const profileCache: Map<string, CachedProfile> = new Map();
 
 const QUOTE_TTL_MS = 1000 * 60 * 30;          // 30 min
 const HISTORY_TTL_MS = 1000 * 60 * 60 * 12;   // 12 hours
 const RESEARCH_TTL_MS = 1000 * 60 * 60 * 24;  // 24 hours
 const INSIGHTS_TTL_MS = 1000 * 60 * 60 * 24;  // 24 hours
+const PROFILE_TTL_MS = 1000 * 60 * 60 * 24;   // 24 hours
 
 const yf = new YahooFinance({
     suppressNotices: ["yahooSurvey"],
@@ -58,14 +66,6 @@ export const fetchStockQuoteYahoo = async (
     }
 
     const quote = await yf.quote(symbol);
-
-    let beta: number | undefined = undefined;
-    try {
-        const research = await fetchStockResearchYahoo(symbol, refresh);
-        beta = research.beta;
-    } catch (err) {
-        console.warn(`Could not fetch beta for ${symbol}:`, err);
-    }
 
     const snapshot: QuoteSnapshot = {
         symbol: quote.symbol,
@@ -96,7 +96,7 @@ export const fetchStockQuoteYahoo = async (
             epsTTM: quote.epsTrailingTwelveMonths,
             epsForward: quote.epsForward,
             epsCurrentYear: quote.epsCurrentYear,
-            beta: beta !== undefined ? beta : quote.beta,
+            beta: quote.beta,
         },
         range: {
             week52Low: quote.fiftyTwoWeekLow,
@@ -445,4 +445,54 @@ export const fetchStockInsightsYahoo = async (
     return snapshot;
 };
 
-console.log(await fetchStockResearchYahoo("AAPL", true));
+export const fetchStockProfileYahoo = async (
+    ticker: string,
+    refresh: boolean = false
+): Promise<ProfileSnapshot> => {
+    const symbol = ticker.toUpperCase().trim();
+    const now = Date.now();
+
+    if (!symbol) throw new Error("Ticker is required");
+
+    const cached = profileCache.get(symbol);
+    if (!refresh && cached && now - cached.fetchedAtMs < PROFILE_TTL_MS) {
+        return cached.data;
+    }
+
+    const summary = await yf.quoteSummary(symbol, {
+        modules: ["assetProfile", "calendarEvents"],
+    });
+
+    const assetProfile = (summary as any).assetProfile ?? {};
+    const calendarEvents = (summary as any).calendarEvents ?? {};
+
+    const description = assetProfile.longBusinessSummary;
+
+    let earningsDate: string | undefined = undefined;
+    if (calendarEvents.earnings && Array.isArray(calendarEvents.earnings.earningsDate) && calendarEvents.earnings.earningsDate.length > 0) {
+        earningsDate = calendarEvents.earnings.earningsDate[0];
+    } else if (calendarEvents.earnings && calendarEvents.earnings.earningsDate) {
+        earningsDate = calendarEvents.earnings.earningsDate;
+    }
+
+    const snapshot: ProfileSnapshot = {
+        symbol,
+        source: "yahoo",
+        fetchedAt: new Date(now).toISOString(),
+    };
+
+    if (description) {
+        snapshot.description = description;
+    }
+
+    if (earningsDate) {
+        snapshot.earningsDate = new Date(earningsDate).toISOString();
+    }
+
+    profileCache.set(symbol, {
+        data: snapshot,
+        fetchedAtMs: now,
+    });
+
+    return snapshot;
+};
