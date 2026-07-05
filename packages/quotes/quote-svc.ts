@@ -258,9 +258,11 @@ export const fetchStockInsightsYahoo = async (
         return cached.data;
     }
 
-    const insights: InsightsResult = await yf.insights(symbol, {
+    const insights = (await yf.insights(symbol, {
         reportsCount: normalizedReportsCount,
-    });
+    }, {
+        validateResult: false,
+    })) as InsightsResult;
 
     const snapshot: InsightsSnapshot = {
         symbol: insights.symbol,
