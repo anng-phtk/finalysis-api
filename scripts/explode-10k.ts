@@ -89,41 +89,85 @@ export class Sec10KExploder {
     }
 
     private findTocItemLinks(document: Document): ItemLink[] {
-        const links = Array.from(document.querySelectorAll('a[href^="#"]'));
-
         const itemLinks: ItemLink[] = [];
+        const seenItems = new Set<string>();
 
-        for (const link of links) {
-            const text = this.normalizeWhitespace(link.textContent ?? '');
-            const href = link.getAttribute('href') ?? '';
-
-            const match = text.match(/^Item\s+(\d+[A-Z]?)\.?/i);
+        // Approach 1: Check table rows (extremely common in SEC filings)
+        const rows = Array.from(document.querySelectorAll('tr'));
+        for (const row of rows) {
+            const rowText = this.normalizeWhitespace(row.textContent ?? '');
+            const match = rowText.match(/\b(?:Item|ITEM)\s*(\d+(?:[A-Z](?![a-z]))?)/);
             if (!match || !match[1]) continue;
 
-            const id = href.replace(/^#/, '');
-            if (!id) continue;
-
             const item = match[1].toUpperCase();
+            if (seenItems.has(item)) continue;
 
-            const row = link.closest('tr');
-            const rowText = this.normalizeWhitespace(row?.textContent ?? text);
-
-            const title = this.extractTitleFromTocRow(rowText, text);
-
-            if (itemLinks.some(x => x.item === item)) continue;
-
-            itemLinks.push({
-                item,
-                title,
-                href,
-                id,
+            // Find links in this row
+            const links = Array.from(row.querySelectorAll('a[href^="#"]'));
+            // Filter out page number links (pure digits)
+            const targetLink = links.find(link => {
+                const linkText = link.textContent?.trim() || '';
+                return !/^\d+$/.test(linkText) && linkText.length > 0;
             });
+
+            if (targetLink) {
+                const href = targetLink.getAttribute('href') ?? '';
+                const id = href.replace(/^#/, '');
+                if (!id) continue;
+
+                const titleText = targetLink.textContent?.trim() || '';
+                const title = this.extractTitleFromTocRow(rowText, titleText);
+
+                itemLinks.push({
+                    item,
+                    title,
+                    href,
+                    id,
+                });
+                seenItems.add(item);
+            }
+        }
+
+        // Approach 2: Fallback to scanning individual links directly (e.g., if not in a table)
+        if (itemLinks.length === 0) {
+            const links = Array.from(document.querySelectorAll('a[href^="#"]'));
+            for (const link of links) {
+                const text = this.normalizeWhitespace(link.textContent ?? '');
+                const href = link.getAttribute('href') ?? '';
+
+                const match = text.match(/^Item\s+(\d+[A-Z]?)\.?/i);
+                if (!match || !match[1]) continue;
+
+                const id = href.replace(/^#/, '');
+                if (!id) continue;
+
+                const item = match[1].toUpperCase();
+                if (seenItems.has(item)) continue;
+
+                const row = link.closest('tr');
+                const rowText = this.normalizeWhitespace(row?.textContent ?? text);
+                const title = this.extractTitleFromTocRow(rowText, text);
+
+                itemLinks.push({
+                    item,
+                    title,
+                    href,
+                    id,
+                });
+                seenItems.add(item);
+            }
         }
 
         return itemLinks;
     }
 
     private extractTitleFromTocRow(rowText: string, itemText: string): string {
+        // If the link text (itemText) is NOT the "Item X" label itself, then the link text IS the title!
+        if (!/^\s*Item\s+\d/i.test(itemText)) {
+            return itemText.trim();
+        }
+
+        // Otherwise (like in Apple where the link text is "Item 1"), the title is the rest of the row text
         let title = rowText
             .replace(itemText, '')
             .replace(/\b\d+\b$/, '')
@@ -500,7 +544,8 @@ a {
 const src = {
         AAPL_8k: `https://www.sec.gov/Archives/edgar/data/320193/000032019326000011/a8-kex991q2202603282026.htm`,
         AAPL_10k: `https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/aapl-20240928.htm`,
-        AAPL_10Q: `https://www.sec.gov/Archives/edgar/data/320193/000032019326000013/aapl-20260328.htm`
+        AAPL_10Q: `https://www.sec.gov/Archives/edgar/data/320193/000032019326000013/aapl-20260328.htm`,
+        GOOG_10Q: `https://www.sec.gov/Archives/edgar/data/1652044/000165204426000048/goog-20260331.htm`
 };
 // ==================== EXECUTION ====================
 const parser = new Sec10KExploder(

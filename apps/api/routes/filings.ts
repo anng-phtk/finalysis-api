@@ -23,6 +23,60 @@ filingsRouter.get("/explode", async (req: Request, res: Response) => {
     }
 });
 
+filingsRouter.get("/data-explorer/notes", async (req: Request, res: Response) => {
+    try {
+        const ticker = req.query.ticker ? String(req.query.ticker).trim().toUpperCase() : null;
+        const folder = req.query.folder ? String(req.query.folder).trim() : null;
+
+        if (!ticker || !folder) {
+            res.status(400).json({ error: "ticker and folder query parameters are required" });
+            return;
+        }
+
+        const dataDir = path.join(process.cwd(), "data");
+        const notesPath = path.join(dataDir, ticker, folder, "NOTES.md");
+
+        if (fs.existsSync(notesPath)) {
+            const content = fs.readFileSync(notesPath, "utf8");
+            res.json({ content });
+        } else {
+            res.json({ content: "" });
+        }
+    } catch (error: any) {
+        console.error(error);
+        res.status(500).json({ error: `Failed to read notes: ${error.message}` });
+    }
+});
+
+filingsRouter.post("/data-explorer/notes", async (req: Request, res: Response) => {
+    try {
+        const ticker = req.body.ticker ? String(req.body.ticker).trim().toUpperCase() : null;
+        const folder = req.body.folder ? String(req.body.folder).trim() : null;
+        const content = req.body.content !== undefined ? String(req.body.content) : null;
+
+        if (!ticker || !folder || content === null) {
+            res.status(400).json({ error: "ticker, folder, and content are required in body" });
+            return;
+        }
+
+        const dataDir = path.join(process.cwd(), "data");
+        const folderPath = path.join(dataDir, ticker, folder);
+        
+        if (!fs.existsSync(folderPath)) {
+            res.status(404).json({ error: "Folder not found" });
+            return;
+        }
+
+        const notesPath = path.join(folderPath, "NOTES.md");
+        fs.writeFileSync(notesPath, content, "utf8");
+
+        res.json({ success: true, message: "Notes saved successfully" });
+    } catch (error: any) {
+        console.error(error);
+        res.status(500).json({ error: `Failed to save notes: ${error.message}` });
+    }
+});
+
 filingsRouter.get("/data-explorer", async (req: Request, res: Response) => {
     try {
         const dataDir = path.join(process.cwd(), "data");
