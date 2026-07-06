@@ -28,6 +28,7 @@ export class Sec10KExploder {
 
         this.removeSecNoise(document);
         this.cleanAttributes(document);
+        this.removePageBreakNoise(document);
         this.promoteLikelyHeadings(document);
 
         const itemLinks = this.findTocItemLinks(document);
@@ -165,10 +166,12 @@ export class Sec10KExploder {
     }
 
     private findAnchorTarget(document: Document, id: string): Element | null {
+        const win = document.defaultView;
+        const escaped = (win && win.CSS && typeof win.CSS.escape === 'function') ? win.CSS.escape(id) : id;
         return (
             document.getElementById(id) ??
-            document.querySelector(`[name="${CSS.escape(id)}"]`) ??
-            document.querySelector(`a[name="${CSS.escape(id)}"]`)
+            document.querySelector(`[name="${escaped}"]`) ??
+            document.querySelector(`a[name="${escaped}"]`)
         );
     }
 
@@ -236,6 +239,75 @@ export class Sec10KExploder {
                 if (!keepAttrs.has(attr.name.toLowerCase())) {
                     el.removeAttribute(attr.name);
                 }
+            }
+        });
+    }
+
+    private removePageBreakNoise(document: Document): void {
+        // 1. Remove [Page number] + hr + [Table of Contents] pattern
+        const hrs = Array.from(document.querySelectorAll('hr'));
+
+        for (const hr of hrs) {
+            let pageNumEl: Element | null = null;
+            let tocEl: Element | null = null;
+            const elementsToRemove: Element[] = [hr];
+
+            // Look backwards for the page number (digits, "page X", or text ending in "| X")
+            let prev = hr.previousElementSibling;
+            for (let i = 0; i < 3 && prev; i++) {
+                const text = prev.textContent?.trim() || '';
+                const isPageIndicator = /^\d+$/.test(text) || 
+                                        /page\s+\d+$/i.test(text) || 
+                                        (/\|\s*\d+$/.test(text) && text.length < 60);
+                if (isPageIndicator) {
+                    pageNumEl = prev;
+                    elementsToRemove.push(prev);
+                    break;
+                }
+                const isTarget = prev.hasAttribute('id') || prev.hasAttribute('name');
+                if (!text && !isTarget) {
+                    elementsToRemove.push(prev);
+                }
+                prev = prev.previousElementSibling;
+            }
+
+            // Look forwards for the Table of Contents link (optional, but removed if found)
+            let next = hr.nextElementSibling;
+            for (let i = 0; i < 3 && next; i++) {
+                const text = next.textContent?.trim() || '';
+                if (text.toLowerCase().includes('table of contents')) {
+                    tocEl = next;
+                    elementsToRemove.push(next);
+                    break;
+                }
+                const isTarget = next.hasAttribute('id') || next.hasAttribute('name');
+                if (!text && !isTarget) {
+                    elementsToRemove.push(next);
+                }
+                next = next.nextElementSibling;
+            }
+
+            // If we found a page indicator preceding the hr, remove all gathered elements
+            if (pageNumEl) {
+                elementsToRemove.forEach(el => el.remove());
+            }
+        }
+
+        // 2. Remove standalone "Table of Contents" links and their empty wrappers
+        document.querySelectorAll('a').forEach(el => {
+            const text = el.textContent?.trim() || '';
+            if (text.toLowerCase() === 'table of contents') {
+                let current: HTMLElement | null = el as HTMLElement;
+                while (current && current.parentElement && current.parentElement.tagName.toLowerCase() !== 'body') {
+                    const parent = current.parentElement;
+                    const parentText = parent.textContent?.trim() || '';
+                    if (parentText.toLowerCase() === 'table of contents') {
+                        current = parent as HTMLElement;
+                    } else {
+                        break;
+                    }
+                }
+                current.remove();
             }
         });
     }
@@ -308,9 +380,9 @@ export class Sec10KExploder {
     private readerCss(): string {
         return `
 body {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: system-ui, sans-serif;
   max-width: 900px;
-  margin: 48px auto;
+  margin: 12px auto;
   padding: 0 24px;
   line-height: 1.65;
   font-size: 18px;
