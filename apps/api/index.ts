@@ -62,7 +62,7 @@ app.get("/api/filing-reader", async (req: Request, res: Response) => {
               
               body {
                 padding: 1.2rem !important;
-                max-width: 800px !important;
+                max-width: 100%;
                 margin: 0 auto !important;
               }
 
