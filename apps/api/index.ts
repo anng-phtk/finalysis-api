@@ -62,15 +62,16 @@ app.get("/api/filing-reader", async (req: Request, res: Response) => {
               
               body {
                 padding: 1.2rem !important;
-                max-width: 100%;
+                max-width: 90% !important;
+                width: 90% !important;
                 margin: 0 auto !important;
               }
 
               /* Clear page centering margins on main wrappers */
               body > div, body > section, .main-content, main {
                 margin: 0 !important;
-                padding: 0 !important;
-                width: 100% !important;
+                padding: 5px !important;
+                width: 90% !important;
                 max-width: 100% !important;
               }
 
