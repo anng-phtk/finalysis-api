@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEC Filing Explorer & Exploder</title>
+    <!-- Premium Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --bg: #090d16;
+            --panel: #111827;
+            --border: #1f2937;
+            --primary: #3b82f6;
+            --primary-hover: #60a5fa;
+            --primary-light: rgba(59, 130, 246, 0.1);
+            --text: #f3f4f6;
+            --text-muted: #9ca3af;
+            --success: #10b981;
+            --error: #ef4444;
+            --accent: #8b5cf6;
+            --card-glow: rgba(59, 130, 246, 0.03);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Top Bar styling */
+        .top-bar {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            background: var(--panel);
+            border-bottom: 1px solid var(--border);
+            height: 160px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .title-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 220px;
+            border-right: 1px solid var(--border);
+            padding-right: 10px;
+        }
+
+        .title-section h1 {
+            font-size: 20px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--text) 30%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .title-section p {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .form-section {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            align-content: center;
+        }
+
+        .form-section input, .form-section select {
+            background: #1f2937;
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .form-section input:focus, .form-section select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px var(--primary-light);
+        }
+
+        .form-section input[type="text"]::placeholder {
+            color: #6b7280;
+        }
+
+        .form-section button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+
+        .form-section button:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .status-section {
+            width: 320px;
+            background: #111827;
+            border-radius: 8px;
+            padding: 14px;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .status-header {
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text);
+        }
+
+        .status-header-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--error);
+            border-radius: 50%;
+            transition: background 0.3s ease;
+            box-shadow: 0 0 8px var(--error);
+        }
+
+        .status-dot.connected {
+            background: var(--success);
+            box-shadow: 0 0 8px var(--success);
+        }
+
+        #queue-stats {
+            color: var(--text-muted);
+            font-size: 11px;
+        }
+
+        .status-log {
+            flex: 1;
+            overflow-y: auto;
+            background: #090d16;
+            color: #34d399;
+            padding: 8px;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            border: 1px solid var(--border);
+            line-height: 1.4;
+        }
+
+        /* Bottom Section / Main Layout */
+        .main-content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 280px 1fr 33%;
+            gap: 4px;
+            padding: 4px;
+            overflow: hidden;
+        }
+
+        .panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+        }
+
+        .panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+        }
+
+        .panel-header {
+            padding: 14px 18px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+            background: rgba(17, 24, 39, 0.8);
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text);
+        }
+
+        .panel-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 14px;
+        }
+
+        .panel-header button:hover {
+            border-color: var(--primary) !important;
+            color: var(--text) !important;
+            background: var(--primary-light) !important;
+        }
+
+        /* Collapsible Tree View */
+        .tree ul {
+            list-style: none;
+            padding-left: 12px;
+        }
+
+        .tree > ul {
+            padding-left: 0;
+        }
+
+        .tree li {
+            margin: 4px 0;
+            position: relative;
+        }
+
+        .tree-item {
+            display: flex;
+            align-items: center;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            color: var(--text-muted);
+            transition: all 0.15s ease;
+            user-select: none;
+        }
+
+        .tree-item:hover {
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text);
+        }
+
+        .tree-item.active {
+            background: var(--primary-light);
+            color: var(--primary-hover);
+            font-weight: 600;
+        }
+
+        .tree-file-checkbox {
+            margin-right: 8px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .delete-btn {
+            color: var(--error);
+            opacity: 0;
+            transition: all 0.2s ease;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+
+        .tree-item:hover .delete-btn {
+            opacity: 0.6;
+        }
+
+        .tree-item .delete-btn:hover {
+            opacity: 1 !important;
+            background: rgba(239, 68, 68, 0.15);
+        }
+
+        .toggle-btn {
+            cursor: pointer;
+            margin-right: 6px;
+            font-size: 9px;
+            color: var(--text-muted);
+            width: 14px;
+            height: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 3px;
+            transition: background 0.2s;
+        }
+
+        .toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text);
+        }
+
+        .toggle-btn.placeholder {
+            width: 14px;
+            cursor: default;
+        }
+
+        .icon {
+            margin-right: 8px;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .folder-children {
+            display: block; /* start expanded */
+        }
+
+        /* Viewer frame wrapper */
+        .viewer-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #fff;
+            border-radius: 0 0 12px 12px;
+        }
+
+        /* Premium Notes view */
+        .notes-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .notes-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            background: rgba(17, 24, 39, 0.6);
+            padding: 0 8px;
+        }
+
+        .notes-tab {
+            padding: 12px 16px;
+            font-size: 13px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            color: var(--text-muted);
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .notes-tab:hover {
+            color: var(--text);
+        }
+
+        .notes-tab.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary-hover);
+            font-weight: 600;
+        }
+
+        .notes-textarea {
+            flex: 1;
+            background: #0b0f19;
+            color: var(--text);
+            border: none;
+            resize: none;
+            padding: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .notes-preview {
+            flex: 1;
+            padding: 18px;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-y: auto;
+            display: none;
+            background: #111827;
+            color: var(--text);
+        }
+
+        .notes-preview h1, .notes-preview h2, .notes-preview h3 {
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .notes-preview h1 { font-size: 1.4rem; border-bottom: 1px solid var(--border); padding-bottom: 4px; }
+        .notes-preview h2 { font-size: 1.2rem; }
+        .notes-preview h3 { font-size: 1.05rem; }
+
+        .notes-preview p {
+            margin-bottom: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .notes-preview ul, .notes-preview ol {
+            padding-left: 20px;
+            margin-bottom: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .notes-preview code {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 11px;
+        }
+
+        .notes-preview pre {
+            background: #090d16;
+            padding: 12px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 10px 0;
+            border: 1px solid var(--border);
+        }
+
+        /* Modal styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background-color: var(--panel);
+            margin: 8% auto;
+            padding: 4px;
+            border: 1px solid var(--border);
+            width: 80%;
+            max-width: 680px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+        }
+
+        .modal-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .close-modal {
+            color: var(--text-muted);
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-modal:hover {
+            color: var(--text);
+        }
+
+        .modal-body {
+            max-height: 400px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 4px;
+        }
+
+        .filing-item {
+            background: #1f2937;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filing-item:hover {
+            border-color: var(--primary);
+            background: rgba(59, 130, 246, 0.05);
+            transform: translateY(-1px);
+        }
+
+        .filing-item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .filing-item-badge {
+            display: inline-block;
+            background: var(--primary-light);
+            color: var(--primary-hover);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            width: fit-content;
+        }
+
+        .filing-item-date {
+            font-size: 13px;
+            color: var(--text);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        .filing-item-url {
+            font-size: 11px;
+            color: var(--text-muted);
+            word-break: break-all;
+            max-width: 450px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .filing-item-action {
+            color: var(--primary-hover);
+            font-size: 13px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="title-section">
+            <h1>Filing Explorer</h1>
+            <p>10-K/Q Exploder & Analyzer</p>
+        </div>
+        
+        <div class="form-section">
+            <input type="text" id="f-ticker" placeholder="Ticker (e.g. AAPL)" required>
+            <button onclick="searchSecFilings()">Search Filings</button>
+            <input type="text" id="f-cik" placeholder="CIK (Auto-filled)" required readonly>
+            <select id="f-type">
+                <option value="10-K">10-K Filing</option>
+                <option value="10-Q">10-Q Filing</option>
+                <option value="8-K">8-K Filing</option>
+            </select>
+            <input type="date" id="f-date" required>
+            <input type="text" id="f-url" placeholder="SEC HTML Archive URL (Auto-filled)" style="grid-column: span 2;" required readonly>
+            <button onclick="enqueueJob()" style="grid-column: span 1;">Explode Filing</button>
+        </div>
+        
+        <div class="status-section">
+            <div class="status-header">
+                <span>System Status</span>
+                <div class="status-header-right">
+                    <span id="queue-stats">Connecting...</span>
+                    <div class="status-dot" id="ws-dot"></div>
+                </div>
+            </div>
+            <div class="status-log" id="status-log">Initial connection...</div>
+        </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="main-content">
+        <!-- Col 1: collapsible Tree View -->
+        <div class="panel">
+            <div class="panel-header">
+                <span>Directory Browser</span>
+                <div style="display: flex; gap: 6px;">
+                    <button onclick="addCustomHtml()" style="background: none; border: 1px solid var(--border); color: var(--text-muted); padding: 2px 6px; border-radius: 4px; font-size: 10px; cursor: pointer; font-weight: 500; transition: all 0.2s;">+ Add HTML</button>
+                    <button onclick="toggleAllTree(true)" style="background: none; border: 1px solid var(--border); color: var(--text-muted); padding: 2px 4px; border-radius: 4px; font-size: 10px; cursor: pointer; font-weight: 500; transition: all 0.2s;">Expand</button>
+                    <button onclick="toggleAllTree(false)" style="background: none; border: 1px solid var(--border); color: var(--text-muted); padding: 2px 4px; border-radius: 4px; font-size: 10px; cursor: pointer; font-weight: 500; transition: all 0.2s;">Collapse</button>
+                </div>
+            </div>
+            <div class="panel-body tree" id="tree-container" style="padding: 10px;">
+                Loading repository structure...
+            </div>
+        </div>
+
+        <!-- Col 2: HTML Content Viewer & Editor -->
+        <div class="panel">
+            <!-- AI summarization query bar -->
+            <div style="display: flex; gap: 8px; padding: 10px 14px; border-bottom: 1px solid var(--border); background: rgba(17,24,39,0.4); align-items: center; flex-shrink: 0;">
+                <input type="text" id="ai-query-input" placeholder="Ask AI about selected files (e.g. 'streams of revenue', 'YOY growth')..." style="flex:1; background:#1f2937; border:1px solid var(--border); padding:6px 12px; border-radius:6px; font-size:12px; color:var(--text); outline:none;">
+                <button onclick="analyzeSelectedAttachments()" id="btn-ai-analyze" style="background:var(--primary); color:white; border:none; padding:6px 14px; border-radius:6px; font-size:12px; cursor:pointer; font-weight:600; transition:0.2s;">Analyze with AI</button>
+            </div>
+
+            <div class="panel-header" style="background: rgba(17, 24, 39, 0.6); flex-shrink: 0;">
+                <span id="viewer-title" style="font-size:13px; font-weight:500;">Select a segment to analyze</span>
+                <div id="viewer-actions" style="display: none; gap: 8px;">
+                    <button onclick="switchViewerTab('read')" id="v-tab-read" class="notes-tab active" style="background:none; border:none; color:inherit; padding:4px 8px; font-size:11px; cursor:pointer;">Reader View</button>
+                    <button onclick="switchViewerTab('edit')" id="v-tab-edit" class="notes-tab" style="background:none; border:none; color:inherit; padding:4px 8px; font-size:11px; cursor:pointer;">Edit Source</button>
+                    <button onclick="saveHtmlContent()" id="v-btn-save" style="background:var(--success); color:white; border:none; padding:4px 10px; border-radius:4px; font-size:11px; cursor:pointer; font-weight:600; display:none; transition:0.2s;">Save HTML</button>
+                </div>
+            </div>
+
+            <div class="panel-body" style="padding: 0; background: #fff; display:flex; flex-direction:column; position:relative;">
+                <iframe id="html-viewer" class="viewer-frame" src="about:blank"></iframe>
+                <textarea id="html-editor" style="display:none; width:100%; height:100%; border:none; background:#0b0f19; color:var(--text); padding:16px; font-family:'JetBrains Mono', monospace; font-size:12px; outline:none; resize:none; line-height:1.5;"></textarea>
+            </div>
+        </div>
+
+        <!-- Col 3: Markdown Period Notes -->
+        <div class="panel">
+            <div class="panel-header">Filing Notes</div>
+            <div class="notes-container">
+                <div class="notes-tabs">
+                    <div class="notes-tab active" id="tab-edit" onclick="switchTab('edit')">Edit Notes</div>
+                    <div class="notes-tab" id="tab-preview" onclick="switchTab('preview')">Preview</div>
+                    <div style="flex:1"></div>
+                    <div class="notes-tab" onclick="saveNotes(event)" style="color:var(--primary-hover); font-weight: 600;">Save</div>
+                </div>
+                <textarea class="notes-textarea" id="notes-editor" placeholder="Write analyses or paste transcripts in Markdown..."></textarea>
+                <div class="notes-preview" id="notes-preview"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Modal PopUp -->
+    <div id="lookup-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Select Filing Document</h2>
+                <span class="close-modal" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body" id="modal-filings-list">
+                Loading SEC filings history...
+            </div>
+        </div>
+    </div>
+
+<script>
+    const API_BASE = '/api/filings/data-explorer';
+    let currentDir = null;
+    let currentFilePath = null;
+    let currentViewerTab = 'read';
+    let selectedAttachments = [];
+    let ws;
+
+    // --- WebSockets Connection ---
+    function connectWS() {
+        const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+        ws = new WebSocket(`${protocol}://${location.host}${API_BASE}`);
+        
+        ws.onopen = () => {
+            document.getElementById('ws-dot').classList.add('connected');
+            document.getElementById('status-log').innerText = 'Worker status: Connected.\n';
+            loadTree(); // Refresh directory structure
+        };
+        ws.onclose = () => {
+            document.getElementById('ws-dot').classList.remove('connected');
+            document.getElementById('status-log').innerText += '\nWorker status: Offline. Reconnecting...';
+            setTimeout(connectWS, 3000);
+        };
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            const log = document.getElementById('status-log');
+            if (data.type === 'start') {
+                log.innerText += `\n[RUN] ${data.payload.ticker} ${data.payload.filingType} started`;
+            }
+            if (data.type === 'progress') {
+                log.innerText += `\n  - [${data.payload.index+1}/${data.payload.total}] Exploded: ${data.payload.item}`;
+            }
+            if (data.type === 'complete') {
+                log.innerText += `\n[DONE] ${data.payload.ticker} exploded successfully.`;
+                loadTree(); // Refresh directory on finish
+            }
+            if (data.type === 'error') {
+                log.innerText += `\n[FAIL] ${data.payload.ticker} failed: ${data.payload.error}`;
+            }
+            log.scrollTop = log.scrollHeight;
+            updateQueueStats();
+        };
+    }
+
+    async function updateQueueStats() {
+        try {
+            const res = await fetch(`${API_BASE}/tree`);
+            const data = await res.json();
+            document.getElementById('queue-stats').innerText = `Active tickers: ${data.length}`;
+        } catch(e) {}
+    }
+
+    // --- SEC Lookup and Fill Popup ---
+    async function searchSecFilings() {
+        const ticker = document.getElementById('f-ticker').value.toUpperCase().trim();
+        if (!ticker) return alert("Please enter a ticker symbol first.");
+
+        // Open modal
+        const modal = document.getElementById('lookup-modal');
+        const listContainer = document.getElementById('modal-filings-list');
+        document.getElementById('modal-title').innerText = `Available Filings for ${ticker}`;
+        listContainer.innerHTML = '<div style="color:var(--text-muted); padding:10px;">Searching SEC database...</div>';
+        modal.style.display = 'block';
+
+        try {
+            const res = await fetch(`${API_BASE}/lookup/${ticker}`);
+            if (!res.ok) {
+                const err = await res.json();
+                listContainer.innerHTML = `<div style="color:var(--error); padding:10px;">Error: ${err.error}</div>`;
+                return;
+            }
+
+            const data = await res.json();
+            document.getElementById('f-cik').value = data.cik;
+
+            if (!data.filings || data.filings.length === 0) {
+                listContainer.innerHTML = '<div style="color:var(--text-muted); padding:10px;">No 10-K, 10-Q, or 8-K filings found.</div>';
+                return;
+            }
+
+            let html = '';
+            data.filings.forEach(f => {
+                html += `
+                    <div class="filing-item" onclick="selectFiling('${data.cik}', '${f.form}', '${f.reportDate}', '${f.filingUrl}')">
+                        <div class="filing-item-info">
+                            <span class="filing-item-badge">${f.form}</span>
+                            <span class="filing-item-date">Period End: ${f.reportDate}</span>
+                            <span class="filing-item-url">${f.filingUrl}</span>
+                        </div>
+                        <div class="filing-item-action">Select & Fill</div>
+                    </div>
+                `;
+            });
+            listContainer.innerHTML = html;
+
+        } catch (e) {
+            listContainer.innerHTML = `<div style="color:var(--error); padding:10px;">Failed to fetch filings: ${e.message}</div>`;
+        }
+    }
+
+    function selectFiling(cik, form, date, url) {
+        document.getElementById('f-cik').value = cik;
+        document.getElementById('f-type').value = form;
+        document.getElementById('f-date').value = date;
+        document.getElementById('f-url').value = url;
+        closeModal();
+    }
+
+    function closeModal() {
+        document.getElementById('lookup-modal').style.display = 'none';
+    }
+
+    // Close modal on outside click
+    window.onclick = function(event) {
+        const modal = document.getElementById('lookup-modal');
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+
+    // --- Enqueue Job API ---
+    async function enqueueJob() {
+        const payload = {
+            ticker: document.getElementById('f-ticker').value.toUpperCase().trim(),
+            cik: document.getElementById('f-cik').value.trim(),
+            filingType: document.getElementById('f-type').value,
+            periodEndDate: document.getElementById('f-date').value,
+            url: document.getElementById('f-url').value.trim()
+        };
+        if (!payload.ticker || !payload.url || !payload.periodEndDate || !payload.cik) {
+            return alert("Filing CIK, ticker, endDate, and SEC archive URL are required. Use 'Search Filings' to auto-fill.");
+        }
+
+        const res = await fetch(`${API_BASE}/enqueue`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        if (res.ok) {
+            document.getElementById('f-ticker').value = '';
+            document.getElementById('f-cik').value = '';
+            document.getElementById('f-date').value = '';
+            document.getElementById('f-url').value = '';
+            document.getElementById('status-log').innerText += `\nQueued job for ${payload.ticker} (${payload.filingType})`;
+        } else {
+            const err = await res.json();
+            alert(err.error);
+        }
+    }
+
+    // --- Collapsible Directory Tree ---
+    async function loadTree() {
+        const res = await fetch(`${API_BASE}/tree`);
+        const tree = await res.json();
+        const container = document.getElementById('tree-container');
+        if (tree.length === 0) {
+            container.innerHTML = '<div style="color:var(--text-muted); font-size:12px; padding:8px;">No exploded filings found. Submit a job to start.</div>';
+            return;
+        }
+        container.innerHTML = '<ul>' + renderTree(tree) + '</ul>';
+    }
+
+    function renderTree(nodes) {
+        return nodes.map(n => {
+            if (n.type === 'folder') {
+                const hasChildren = n.children && n.children.length > 0;
+                const toggleHtml = hasChildren 
+                    ? `<span class="toggle-btn" onclick="toggleFolder(event, this)">▼</span>` 
+                    : `<span class="toggle-btn placeholder"></span>`;
+                const icon = '📁';
+                const classes = 'tree-item folder-node';
+                const deleteHtml = `<span class="delete-btn" onclick="deleteItem(event, '${n.path}', '${n.name}')" title="Delete folder">✕</span>`;
+                let html = `<li><div class="${classes}" onclick="selectDir('${n.path}', this)">
+                    <div style="display:flex; align-items:center; flex:1; overflow:hidden;">
+                        ${toggleHtml}<span class="icon">${icon}</span><span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${n.name}</span>
+                    </div>
+                    ${deleteHtml}
+                </div>`;
+                if (hasChildren) {
+                    html += `<ul class="folder-children">${renderTree(n.children)}</ul>`;
+                }
+                return html + '</li>';
+            } else {
+                const icon = '📄';
+                const classes = 'tree-item file-node';
+                const togglePlaceholder = `<span class="toggle-btn placeholder"></span>`;
+                const isChecked = selectedAttachments.includes(n.path) ? 'checked' : '';
+                const checkboxHtml = `<input type="checkbox" class="tree-file-checkbox" ${isChecked} onclick="onCheckboxChange(event, '${n.path}')">`;
+                const deleteHtml = `<span class="delete-btn" onclick="deleteItem(event, '${n.path}', '${n.name}')" title="Delete file">✕</span>`;
+                return `<li><div class="${classes}" onclick="selectFile('${n.path}', this)">
+                    <div style="display:flex; align-items:center; flex:1; overflow:hidden;">
+                        ${togglePlaceholder}${checkboxHtml}<span class="icon">${icon}</span><span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${n.name}</span>
+                    </div>
+                    ${deleteHtml}
+                </div></li>`;
+            }
+        }).join('');
+    }
+
+    async function deleteItem(event, path, name) {
+        event.stopPropagation(); // Stop selection trigger
+        if (!confirm(`Are you sure you want to delete "${name}"? This cannot be undone.`)) {
+            return;
+        }
+
+        try {
+            const res = await fetch(`${API_BASE}/files/delete`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ path })
+            });
+
+            if (res.ok) {
+                // If currently viewed path or directory, clear views
+                if (currentFilePath === path) {
+                    currentFilePath = null;
+                    document.getElementById('html-viewer').src = 'about:blank';
+                    document.getElementById('viewer-title').innerText = 'Select a segment to analyze';
+                    document.getElementById('viewer-actions').style.display = 'none';
+                    document.getElementById('html-editor').style.display = 'none';
+                    document.getElementById('html-viewer').style.display = 'block';
+                }
+                if (currentDir === path) {
+                    currentDir = null;
+                    document.getElementById('notes-editor').value = '';
+                    document.getElementById('notes-preview').innerHTML = '';
+                }
+                
+                // Remove from attachments if selected
+                selectedAttachments = selectedAttachments.filter(p => p !== path);
+                
+                loadTree(); // Refresh directory tree
+            } else {
+                const err = await res.json();
+                alert(err.error || 'Failed to delete item');
+            }
+        } catch(e) {
+            alert(`Error: ${e.message}`);
+        }
+    }
+
+    function onCheckboxChange(event, filePath) {
+        event.stopPropagation(); // Avoid triggering selectFile
+        const checked = event.target.checked;
+        if (checked) {
+            if (selectedAttachments.length >= 3) {
+                event.target.checked = false;
+                return alert("You can select a maximum of 3 attachments for AI analysis.");
+            }
+            selectedAttachments.push(filePath);
+        } else {
+            selectedAttachments = selectedAttachments.filter(p => p !== filePath);
+        }
+    }
+
+    function toggleFolder(event, element) {
+        event.stopPropagation(); // Avoid triggering selectDir
+        const li = element.closest('li');
+        const childrenUl = li.querySelector('.folder-children');
+        if (childrenUl) {
+            if (childrenUl.style.display === 'none') {
+                childrenUl.style.display = 'block';
+                element.innerText = '▼';
+            } else {
+                childrenUl.style.display = 'none';
+                element.innerText = '▶';
+            }
+        }
+    }
+
+    async function selectDir(dirPath, el) {
+        currentDir = dirPath;
+        // Clean active files
+        document.querySelectorAll('.file-node.active').forEach(el => el.classList.remove('active'));
+        
+        // Mark selected folder visually
+        document.querySelectorAll('.folder-node.active').forEach(e => e.classList.remove('active'));
+        if (el) el.classList.add('active');
+
+        // Fetch Period Notes from directory
+        const res = await fetch(`${API_BASE}/notes?dir=${encodeURIComponent(dirPath)}`);
+        const text = await res.text();
+        document.getElementById('notes-editor').value = text;
+        updatePreview();
+    }
+
+    function selectFile(filePath, el) {
+        document.querySelectorAll('.file-node.active').forEach(e => e.classList.remove('active'));
+        el.classList.add('active');
+        
+        // Also select the parent folder to load/save its notes
+        const parts = filePath.split('/');
+        parts.pop(); // Remove filename to get parent folder path
+        const parentFolder = parts.join('/');
+        currentDir = parentFolder;
+        currentFilePath = filePath;
+
+        // Visual match for folder active state
+        document.querySelectorAll('.folder-node').forEach(fNode => {
+            const clickAttr = fNode.getAttribute('onclick');
+            if (clickAttr && clickAttr.includes(`selectDir('${parentFolder}'`)) {
+                document.querySelectorAll('.folder-node.active').forEach(e => e.classList.remove('active'));
+                fNode.classList.add('active');
+            }
+        });
+
+        // Load folder notes
+        fetch(`${API_BASE}/notes?dir=${encodeURIComponent(parentFolder)}`)
+            .then(res => res.text())
+            .then(text => {
+                document.getElementById('notes-editor').value = text;
+                updatePreview();
+            });
+
+        document.getElementById('viewer-title').innerText = filePath.split('/').pop();
+        document.getElementById('viewer-actions').style.display = 'flex';
+        switchViewerTab('read');
+    }
+
+    // --- Document Viewer / Source Editor Tabs ---
+    async function switchViewerTab(tab) {
+        currentViewerTab = tab;
+        const tabRead = document.getElementById('v-tab-read');
+        const tabEdit = document.getElementById('v-tab-edit');
+        const iframe = document.getElementById('html-viewer');
+        const textarea = document.getElementById('html-editor');
+        const saveBtn = document.getElementById('v-btn-save');
+
+        if (tab === 'read') {
+            tabRead.classList.add('active');
+            tabEdit.classList.remove('active');
+            iframe.style.display = 'block';
+            textarea.style.display = 'none';
+            saveBtn.style.display = 'none';
+            iframe.src = `/data/${currentFilePath}?t=${Date.now()}`;
+        } else {
+            tabRead.classList.remove('active');
+            tabEdit.classList.add('active');
+            iframe.style.display = 'none';
+            textarea.style.display = 'block';
+            saveBtn.style.display = 'block';
+            
+            textarea.value = 'Loading raw HTML...';
+            try {
+                const res = await fetch(`${API_BASE}/files/raw?path=${encodeURIComponent(currentFilePath)}`);
+                if (res.ok) {
+                    textarea.value = await res.text();
+                } else {
+                    textarea.value = 'Failed to load raw HTML.';
+                }
+            } catch (e) {
+                textarea.value = `Error loading: ${e.message}`;
+            }
+        }
+    }
+
+    async function saveHtmlContent() {
+        if (!currentFilePath) return;
+        const content = document.getElementById('html-editor').value;
+        const saveBtn = document.getElementById('v-btn-save');
+        const origText = saveBtn.innerText;
+        saveBtn.innerText = 'Saving...';
+        
+        try {
+            const res = await fetch(`${API_BASE}/files/save`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ path: currentFilePath, content })
+            });
+            if (res.ok) {
+                saveBtn.innerText = 'Saved!';
+            } else {
+                saveBtn.innerText = 'Error!';
+            }
+        } catch(e) {
+            saveBtn.innerText = 'Error!';
+        }
+        setTimeout(() => saveBtn.innerText = origText, 1500);
+    }
+
+    async function addCustomHtml() {
+        if (!currentDir) return alert("Select a Ticker period folder in the browser first.");
+        const name = prompt("Enter a name for the new HTML document (e.g. press_release_excerpts):");
+        if (!name) return;
+
+        try {
+            const res = await fetch(`${API_BASE}/files/create`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ dir: currentDir, name })
+            });
+            if (res.ok) {
+                const data = await res.json();
+                loadTree(); // Refresh directory tree
+            } else {
+                const err = await res.json();
+                alert(err.error || 'Failed to create custom HTML document.');
+            }
+        } catch (e) {
+            alert(`Error: ${e.message}`);
+        }
+    }
+
+    // --- AI Multi-Document Analysis ---
+    async function analyzeSelectedAttachments() {
+        if (selectedAttachments.length === 0) {
+            return alert("Please check at least 1 document in the browser directory to analyze.");
+        }
+        
+        const queryInput = document.getElementById('ai-query-input');
+        const queryText = queryInput.value.trim();
+        const btn = document.getElementById('btn-ai-analyze');
+        
+        const origText = btn.innerText;
+        btn.innerText = 'Analyzing...';
+        btn.disabled = true;
+        
+        try {
+            const res = await fetch(`${API_BASE}/ai/analyze`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    filePaths: selectedAttachments,
+                    query: queryText
+                })
+            });
+            
+            if (!res.ok) {
+                const err = await res.json();
+                throw new Error(err.error || 'AI request failed');
+            }
+            
+            const data = await res.json();
+            
+            const notesEditor = document.getElementById('notes-editor');
+            const currentNotes = notesEditor.value;
+            const queryLabel = queryText || "Summary Segment Request";
+            const attachmentNames = selectedAttachments.map(p => p.split('/').pop()).join(', ');
+            
+            const appendMarkdown = `\n\n---\n### 🤖 AI Analysis (${attachmentNames})\n**Query:** *${queryLabel}*\n\n${data.result}\n`;
+            
+            notesEditor.value = currentNotes + appendMarkdown;
+            updatePreview();
+            
+            // Clear input and reload preview
+            queryInput.value = '';
+            
+            // Save automatically
+            await saveNotes();
+            
+        } catch (e) {
+            alert(`AI Analysis Failed: ${e.message}`);
+        } finally {
+            btn.innerText = origText;
+            btn.disabled = false;
+        }
+    }
+
+    // --- Period Notes Control ---
+    function switchTab(tab) {
+        const tabEdit = document.getElementById('tab-edit');
+        const tabPreview = document.getElementById('tab-preview');
+        const editor = document.getElementById('notes-editor');
+        const preview = document.getElementById('notes-preview');
+        
+        if (tab === 'edit') {
+            tabEdit.classList.add('active');
+            tabPreview.classList.remove('active');
+            editor.style.display = 'block';
+            preview.style.display = 'none';
+        } else {
+            tabEdit.classList.remove('active');
+            tabPreview.classList.add('active');
+            updatePreview();
+            editor.style.display = 'none';
+            preview.style.display = 'block';
+        }
+    }
+
+    function updatePreview() {
+        const text = document.getElementById('notes-editor').value;
+        document.getElementById('notes-preview').innerHTML = marked.parse(text);
+    }
+
+    async function saveNotes(event) {
+        if (!currentDir) return alert("Select a reporting period folder first.");
+        const content = document.getElementById('notes-editor').value;
+        
+        await fetch(`${API_BASE}/notes`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ dir: currentDir, content })
+        });
+        
+        // Show saved indicator on button if event exists
+        if (event && event.target) {
+            const btn = event.target;
+            const origText = btn.innerText;
+            btn.innerText = 'Saved!';
+            setTimeout(() => btn.innerText = origText, 1500);
+        }
+    }
+
+    function toggleAllTree(expand) {
+        const children = document.querySelectorAll('#tree-container .folder-children');
+        children.forEach(ul => {
+            ul.style.display = expand ? 'block' : 'none';
+        });
+        const btns = document.querySelectorAll('#tree-container .toggle-btn');
+        btns.forEach(btn => {
+            if (!btn.classList.contains('placeholder')) {
+                btn.innerText = expand ? '▼' : '▶';
+            }
+        });
+    }
+
+    // Live render preview on typing
+    document.getElementById('notes-editor').addEventListener('input', updatePreview);
+
+    // Bootstrap
+    connectWS();
+</script>
+</body>
+</html>

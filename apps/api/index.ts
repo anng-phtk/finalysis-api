@@ -4,6 +4,7 @@ import { fundamentalsRouter } from "./routes/fundamentals.js";
 import { filingsRouter } from "./routes/filings.js";
 import { quoteRouter } from "./routes/quote.js";
 import { insightsRouter } from "./routes/insights.js";
+import { initDataExplorer } from "./data-explorer/router.js";
 import cors from "cors";
 import path from "path";
 dotenv.config();
@@ -144,7 +145,9 @@ app.get("/", async (req: Request, res: Response) => {
     res.send("Hello World!");
 });
 
-app.listen(port, () => {
-    console.log("Server started on port 3000");
+const server = app.listen(port, () => {
+    console.log(`Server started on port ${port}`);
 });
+
+initDataExplorer(server);
 
