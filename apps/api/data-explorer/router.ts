@@ -100,7 +100,23 @@ async function getCikFromTicker(ticker: string): Promise<string | null> {
 
 // Serve HTML UI at GET /api/filings/data-explorer
 dataExplorerRouter.get('/', (req, res) => {
-    res.sendFile(path.join(process.cwd(), 'apps/api/data-explorer/index.html'));
+    const htmlPath = path.join(process.cwd(), 'apps/api/data-explorer/index.html');
+    try {
+        let html = fs.readFileSync(htmlPath, 'utf-8');
+        const host = req.headers.host || '';
+        const hostname = host.split(':')[0] || 'localhost';
+        const wsProtocol = req.protocol === 'https' ? 'wss' : 'ws';
+        const wsPort = process.env.PORT || '3000';
+        const wsUrl = `${wsProtocol}://${hostname}:${wsPort}/api/filings/data-explorer`;
+
+        html = html.replace(
+            'let ws;',
+            `let ws; window.INJECTED_WS_URL = "${wsUrl}";`
+        );
+        res.send(html);
+    } catch (e: any) {
+        res.status(500).send(`Failed to load Data Explorer template: ${e.message}`);
+    }
 });
 
 // Enqueue explosion job

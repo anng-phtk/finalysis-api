@@ -677,7 +677,9 @@
     // --- WebSockets Connection ---
     function connectWS() {
         const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-        ws = new WebSocket(`${protocol}://${location.host}${API_BASE}`);
+        const fallbackUrl = `${protocol}://${location.host}${API_BASE}`;
+        const wsUrl = window.INJECTED_WS_URL || fallbackUrl;
+        ws = new WebSocket(wsUrl);
         
         ws.onopen = () => {
             document.getElementById('ws-dot').classList.add('connected');
