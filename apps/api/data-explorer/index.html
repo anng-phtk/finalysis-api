@@ -616,14 +616,14 @@
         <div class="panel">
             <!-- AI summarization query bar -->
             <div style="display: flex; gap: 8px; padding: 10px 14px; border-bottom: 1px solid var(--border); background: rgba(255, 255, 255, 0.4); align-items: center; flex-shrink: 0;">
-                <input type="text" id="ai-query-input" placeholder="Ask AI about selected files (e.g. 'streams of revenue', 'YOY growth')..." style="flex:1; background:#1f2937; border:1px solid var(--border); padding:6px 12px; border-radius:6px; font-size:12px; color:var(--text); outline:none;">
+                <input type="text" id="ai-query-input" placeholder="Ask AI about selected files (e.g. 'streams of revenue', 'YOY growth')..." style="flex:1; background:#ffffff; border:1px solid var(--border); padding:6px 12px; border-radius:6px; font-size:12px; color:var(--text); outline:none;">
                 <button onclick="analyzeSelectedAttachments()" id="btn-ai-analyze" style="background:var(--primary); color:white; border:none; padding:6px 14px; border-radius:6px; font-size:12px; cursor:pointer; font-weight:600; transition:0.2s;">Analyze with AI</button>
             </div>
 
             <div class="panel-header" style="background: #f9fafb; flex-shrink: 0;">
                 <span id="viewer-title" style="font-size:13px; font-weight:500;">Select a segment to analyze</span>
                 <div id="viewer-actions" style="display: none; gap: 8px;">
-                    <button onclick="switchViewerTab('read')" id="v-tab-read" class="notes-tab active" style="background:none; border:none; color:inherit; padding:4px 8px; font-size:11px; cursor:pointer;">Reader View</button>
+                    <button onclick="switchViewerTab('read')" id="v-tab-read" class="notes-tab active" style="background:none; border:none; color:#00; padding:4px 8px; font-size:11px; cursor:pointer;">Reader View</button>
                     <button onclick="switchViewerTab('edit')" id="v-tab-edit" class="notes-tab" style="background:none; border:none; color:inherit; padding:4px 8px; font-size:11px; cursor:pointer;">Edit Source</button>
                     <button onclick="saveHtmlContent()" id="v-btn-save" style="background:var(--success); color:white; border:none; padding:4px 10px; border-radius:4px; font-size:11px; cursor:pointer; font-weight:600; display:none; transition:0.2s;">Save HTML</button>
                 </div>
